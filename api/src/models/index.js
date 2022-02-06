@@ -14,6 +14,9 @@ const pokemon = ( sequelize ) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    img: {
+      type: DataTypes.STRING
+    },
     hp: {
       type: DataTypes.INTEGER
     },
@@ -42,27 +45,21 @@ const pokemon = ( sequelize ) => {
   });
 };
 
-const tipo = ( sequelize ) => {
-  class Tipo extends Model {};
-  Tipo.init({
-    id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
-      allowNull: false,
-      primaryKey: true
-    },
+const types = ( sequelize ) => {
+  class Types extends Model {};
+  Types.init({
     name: {
       type: DataTypes.STRING
     }
   }, {
     sequelize,
-    modelName: "tipo"
+    modelName: "types"
   })
 }
 
 const models = {
   pokemon,
-  tipo
+  types
 }
 
 module.exports = models;

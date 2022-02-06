@@ -1,1 +1,22 @@
 export const GET_ALL_POKEMONS = "GET_ALL_POKEMONS"; 
+export const GET_TYPES = "GET_TYPES";
+export const LOADED_TYPES = "LOADED_TYPES";
+export const SELECT_PAGE = "SELECT_PAGE";
+export const SEARCH_BY_NAME = "SEARCH_BY_NAME";
+export const ERROR_SEARCH_BY_NAME = "ERROR_SEARCH_BY_NAME";
+export const SEARCH_BY_ID = "SEARCH_BY_ID";
+export const ERROR_SEARCH_BY_ID = "ERROR_SEARCH_BY_ID";  
+export const LOADING = "LOADING";
+
+export const FILTER_BY_TYPE = "FILTER_BY_TYPE";
+export const FILTER_BY_ORIGIN = "FILTER_BY_ORIGIN";
+export const ORDER_BY_ATTACK = "ORDER_BY_ATTACK";
+export const ORDER_ALPHABETICALLY = "ORDER_ALPHABETICALLY";
+
+export const POKEMON_CREATED = "POKEMON_CREATED"; 
+export const EXISTENT_POKEMON = "EXISTENT_POKEMON"; 
+ export const BACK_TO_CREATOR = "BACK_TO_CREATOR"; 
+export const RESET_CREATED = "RESET_CREATED";
+export const EDITING_AGAIN = "EDITING_AGAIN";
+export const SET_DETAIL = "SET_DETAIL";
+export const CLEAN_CACHE = "CLEAN_CACHE"

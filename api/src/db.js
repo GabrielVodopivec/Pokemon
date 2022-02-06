@@ -9,9 +9,9 @@ const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}
 
 Object.values( models ).map(( model ) => model( sequelize ));
 
-const { pokemon, tipo } = sequelize.models;
-pokemon.belongsToMany( tipo, { through: "pokemon_tipo" } );
-tipo.belongsToMany( pokemon, { through: "pokemon_tipo" } );
+const { pokemon, types } = sequelize.models;
+pokemon.belongsToMany( types, { through: "pokemon_tipo" } );
+types.belongsToMany( pokemon, { through: "pokemon_tipo" } );
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { product, user } = require('./db.js');

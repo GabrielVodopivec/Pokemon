@@ -1,15 +1,244 @@
-import { GET_ALL_POKEMONS } from "../actionTypes";
+import { BACK_TO_CREATOR, CLEAN_CACHE, EDITING_AGAIN, ERROR_SEARCH_BY_ID, ERROR_SEARCH_BY_NAME, EXISTENT_POKEMON, FILTER_BY_ORIGIN, FILTER_BY_TYPE, GET_ALL_POKEMONS, GET_TYPES, LOADING, ORDER_ALPHABETICALLY, ORDER_BY_ATTACK, POKEMON_CREATED, RESET_CREATED, SEARCH_BY_ID, SEARCH_BY_NAME, SELECT_PAGE, SET_DETAIL } from "../actionTypes";
 
 const initialState = {
-    pokemons: []
+    allPokemons: [],
+    pokemons: [],
+    types:[],
+    pokeDetail: {},
+    inDetail: false,
+    createdPokemon: {},
+    pokeCache:{},
+    back: false,
+    creating: true,
+    created: false,
+    loading: false,
+    errorSearchByName: "",
+    errorSearchById: "",
+    page: 1,
+    pokemonsPerPage: 12
 }
 
 const rootReducer = ( state = initialState, action ) => {
     switch( action.type ) {
+        case POKEMON_CREATED: 
+        return {
+            ...state,
+            creating: false,
+            loading:false,
+            pokeCache:{},
+            createdPokemon: action.payload.pokemonCreated,
+            created: action.payload.wasCreated
+            }
+        case EXISTENT_POKEMON:
+            return {
+                ...state,
+                creating:false,
+                created:false,
+                loading:false,
+            }
+        case CLEAN_CACHE:
+            return{
+                ...state,
+                pokeCache:{}
+            }
+        case BACK_TO_CREATOR:
+            return {
+                ...state,
+                back:true,
+                creating:true,
+            }
+        case EDITING_AGAIN:
+            return {
+                ...state,
+                back:false
+            }
+        case RESET_CREATED:
+            return {
+                ...state,
+                pokeCache:{},
+                creating:true
+            }
+        case SET_DETAIL: 
+        return {
+            ...state,
+            inDetail:true,
+            }
         case GET_ALL_POKEMONS:
             return {
                 ...state,
-                pokemons: action.payload
+                allPokemons: action.payload,
+                pokemons: action.payload,
+                loading: false,
+                inDetail:true,
+                errorSearchByName: "",
+                errorSearchById: "",
+                page: 1
+            }
+        case GET_TYPES:
+            return {
+                ...state,
+                types: action.payload
+            }    
+        case SEARCH_BY_NAME:
+            return {
+                ...state,
+                errorSearchByName:"",
+                loading: false,
+                pokemons: action.payload,
+                page: 1,
+            }
+        case LOADING:
+            return {
+                ...state,
+                pokeCache:action.payload,
+                loading: true
+            }
+        case ERROR_SEARCH_BY_NAME:
+            return {
+                ...state,
+                errorSearchByName: action.payload,
+                loading: false
+            }
+        case SEARCH_BY_ID:
+            return {
+                ...state,
+                pokeDetail:action.payload,
+                loading: false
+            }
+        case ERROR_SEARCH_BY_ID:
+            return {
+                ...state,
+                errorSearchById: action.payload,
+                loading: false
+            }  
+        case FILTER_BY_TYPE:
+            const toFilter = state.allPokemons;
+            const filtered = ( arreglo ) => {
+                const arr = [];
+                for( let i = 0; i < arreglo.length; i++) {
+                    if ( arreglo[i].types.some( type => type.name === action.payload.toLocaleLowerCase())) {
+                        arr.push( arreglo[i] )
+                    }
+                }
+                return arr
+            }  
+            if ( action.payload === "All" ) { 
+                return {
+                    ...state,
+                    errorSearchByName: "",
+                    pokemons:toFilter,
+                    page: 1
+                }
+            } else if ( filtered( toFilter ).length) {
+                return {
+                    ...state,
+                    errorSearchByName: "",
+                    pokemons: filtered( toFilter ),
+                    page: 1
+                }
+            } else {
+                return {
+                    ...state,
+                    errorSearchByName:"No hay pokes de ese tipo"
+                }
+            }
+        case FILTER_BY_ORIGIN:
+            const toFilterByOrigin = state.allPokemons;
+            if ( action.payload === "db") {
+
+                const fromDb = toFilterByOrigin.filter(( pokemon ) => {
+                    return pokemon.fromdb
+                })
+                if ( fromDb.length ) {
+                    return {
+                        ...state,
+                        page: 1,
+                        errorSearchByName: "",
+                        pokemons: fromDb
+                    }
+                } else {
+                    return {
+                        ...state,
+                        page: 1,
+                        errorSearchByName: "No hay pokes de base de datos"
+                    }
+                }
+                
+            } else {
+                const fromApi = toFilterByOrigin.filter(( pokemon ) => {
+                    return !pokemon.fromdb
+                })
+                return {
+                    ...state,
+                    page: 1,
+                    errorSearchByName:"",
+                    pokemons: fromApi
+                }
+            }    
+        case ORDER_BY_ATTACK:
+            const toOrderByAttack = state.pokemons;
+            const attackOrder = ( array ) => {
+                
+                if( array.length <= 1 ) return array;
+
+                let pivot = array[0];
+                let left = [];
+                let right = [];
+
+                for ( let i = 1; i < array.length; i++ ) {
+                    if( array[i].attack < pivot.attack ) {
+                        left.push( array[i] );
+                    } else {
+                        right.push( array[i] );
+                    }
+                }
+                /* console.log("ordenando") */
+                switch ( action.payload ) {
+                    case 'ASC':
+                        return [ ...attackOrder( left ), pivot, ...attackOrder( right ) ];
+                    case 'DSC':
+                        return [ ...attackOrder( right ), pivot, ...attackOrder( left ) ];
+                    default: break;
+                }
+                return array;
+            }
+            return {
+                ...state,
+                page: 1,
+                pokemons: attackOrder( toOrderByAttack )
+            }
+        case ORDER_ALPHABETICALLY:
+            const ToOrderAlphabetically = state.pokemons;
+            const alphabeticOrder = ( array ) => {
+                if ( array.length <= 1) return array;
+                let pivot = array[0];
+                let left = [];
+                let right = [];
+                for ( let i = 1; i < array.length; i++ ) {
+                    if ( array[i].name.toLocaleLowerCase() < pivot.name.toLocaleLowerCase() ) {
+                        left.push( array[i] );
+                    } else {
+                        right.push( array[i] );
+                    }
+                };
+                if ( action.payload === "ASC" ) {
+                    return [ ...alphabeticOrder( left ), pivot, ...alphabeticOrder( right ) ]
+                }
+                if ( action.payload === "DSC" ) {
+                    return [ ...alphabeticOrder( right ), pivot, ...alphabeticOrder( left ) ]
+                } else {
+                    return array;
+                }
+            }    
+            return {
+                ...state,
+                page: 1,
+                pokemons: alphabeticOrder( ToOrderAlphabetically )
+            }    
+        case SELECT_PAGE:
+            return {
+                ...state,
+                page: action.payload
             }
         default: return state
     }
