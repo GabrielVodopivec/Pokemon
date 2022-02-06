@@ -56,6 +56,7 @@ const rootReducer = ( state = initialState, action ) => {
             return {
                 ...state,
                 pokeCache:{},
+                created:false,
                 creating:true
             }
         case SET_DETAIL: 
