@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { createPokemon, editingAgain } from "../actions";
+import { createPokemon, editingAgain, getAllPokemons } from "../actions";
 import AfterCreator from "./AfterCreator";
 
 import PokePre from "./PokePre";
@@ -217,6 +217,9 @@ export default function PokeCreator () {
             pokeTypes: []
         })
     }
+    const handleMainPage = () => {
+        dispatch( getAllPokemons() )
+    }
     return (
         <>
         {
@@ -368,14 +371,21 @@ export default function PokeCreator () {
                     <div className="conteinerBtnsCreator">
                         <div className="conteinerBtnMainCreator">
                             <Link to = '/home'>
-                                <button className="btnMainCreator">Main Page</button>
+                                <button 
+                                className="btnMainCreator"
+                                onClick={ handleMainPage }
+                                >Main Page</button>
                             </Link>
-                        </div>
-                        
+                        </div>                      
                         <div className="conteinerSubmitCreator">
                         {   
                             !errorType.name &&
                             !errorType.attack &&
+                            !errorType.defense &&
+                            !errorType.hp &&
+                            !errorType.velocidad &&
+                            !errorType.height &&
+                            !errorType.weight &&
                             pokemon.name ?
                             <input className="submitCreator" type="submit" value="Create!"/> : null
                         }
@@ -385,10 +395,6 @@ export default function PokeCreator () {
                 <div className="thirdColumn" >
                     <h2>Preview</h2>
                     <PokePre 
-                    /* name = { pokemon.name }
-                    img = { pokemon.img } 
-                    weight = { pokemon.weight }
-                    height = { pokemon.height } */
                     poke = { pokemon }
                     />
                 </div>

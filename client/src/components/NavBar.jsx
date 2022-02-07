@@ -39,12 +39,7 @@ export default function NavBar () {
             <div className="principalTitle">
                  <img className="titile" src="http://24.media.tumblr.com/232a91726b505a0e8ef44648ca7cc854/tumblr_mjflojSWnr1s1byhpo1_500.gif" alt="Img not found" />
             </div>
-            <div className="conteinerBtnAllPokemonsNav">
-                <button
-                className="BtnAllPokemonsNav"
-                onClick={ handleClick }
-                >Show All Pokemons</button>
-            </div>
+            
             <div className="quantity">
                 { 
                     !errorSearchByName.length ? 
@@ -87,6 +82,12 @@ export default function NavBar () {
                 className="BtnCreatePokemonsNav"
                 onClick={ handleBulk }
                 >BulkCreator</button>
+            </div>
+            <div className="conteinerBtnAllPokemonsNav">
+                <button
+                className="BtnAllPokemonsNav"
+                onClick={ handleClick }
+                >Show All Pokemons</button>
             </div>
             </div>
             

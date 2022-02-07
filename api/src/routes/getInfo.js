@@ -8,7 +8,7 @@ const apiCall1 = () => {
         arrDetail.push( axios(`https://pokeapi.co/api/v2/pokemon/${pokeId1}/`) );
         pokeId1++;
     }
-    console.log('array 1 listo')
+    console.log('Array N°1 Ok')
     return arrDetail;
 }
 const apiCall2 = () => {
@@ -18,16 +18,17 @@ const apiCall2 = () => {
         arrDetail.push( axios(`https://pokeapi.co/api/v2/pokemon/${pokeId1}/`) );
         pokeId1++;
     }
-    console.log('array 2 listo')
+    console.log('Array N°2 OK')
     return arrDetail;
 }
 const apiCall3 = () => {
     let pokeId1 = 101;
     let arrDetail = [];
-    while( pokeId1 <= 110) {  
+    while( pokeId1 <= 120) {  
         arrDetail.push( axios(`https://pokeapi.co/api/v2/pokemon/${pokeId1}/`) );
         pokeId1++;
     }
+    console.log("Array N°3 OK")
     return arrDetail;
 }
 /* const apiCall4 = () => {
@@ -112,7 +113,7 @@ const apiInfo3 = Promise.all( apiCall3())
                         return {
                             
                             name: el.name,
-                            img: el.sprites.other.home.front_default,
+                            img: el.sprites.other.dream_world.front_default,
                             types: el.types.map(( element ) => {
                                 return {
                                     name: element.type.name
@@ -129,7 +130,7 @@ const apiInfo3 = Promise.all( apiCall3())
                     });
                 })
                 .then(( ApiResponse ) => {
-                    console.log( 'ApiInfo 3 Ready!' );
+                    console.log( 'Pokemons to Bulk Ready!' );
                     return ApiResponse;
                 })
                 .catch(( error ) => {
@@ -196,6 +197,7 @@ const getPokemons = () => {
     
         return Promise.all( [dbInfo(), apiInfo1, apiInfo2/* , apiInfo3, apiInfo4 */] )
             .then(( resp ) => {
+                console.log("Info merged and Ready to use...")
                 return [...resp[0], ...resp[1], ...resp[2]/* , ...resp[3], ...resp[4] */];
             })
             .catch(( error ) => {

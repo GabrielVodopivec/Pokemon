@@ -12,20 +12,21 @@ export default function PokeMessage ({ name, img }) {
 
     return (
         <div className="PokecardError">
+            {name.length && <h2 className="titlePokemonError" > {`${name.replace(name[0], name[0].toUpperCase())}`} </h2>}
+            <img 
+            className="imgpokeError" 
+            src={img} 
+            alt="img not found" />
             <div className="imgCardError" >
                 <Link to = '/home'>
                     <button 
                     className="btnpokeError"
                     onClick={ handleClick }
-                    >  Back to Main Page
+                    > Back to Main Page
                     </button>
                 </Link>
             </div>
-            <img 
-            className="imgpokeError" 
-            src={img} 
-            alt="img not found" />
-            {name.length && <h2 className="titlePokemonError" > {`${name.replace(name[0], name[0].toUpperCase())}`} </h2>}
+            
         </div>
     )
 }
