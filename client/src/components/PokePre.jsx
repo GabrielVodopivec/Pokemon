@@ -41,7 +41,10 @@ const PokePre = ( props ) => {
                 <div className="conteinerTypesPrev">
                     {props.poke.pokeTypes.map( (el, index) => {
                         return (
-                            <div key={ index } > { el } </div>
+                            <div
+                            key={ index } 
+                            className= "typesPrev"
+                            > { el } </div>
                         )
                     })}
                 </div>

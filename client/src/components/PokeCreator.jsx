@@ -232,11 +232,12 @@ export default function PokeCreator () {
             <div className="pokeCreator">
                 <div className="firstColumn">
                     <h2>Main Information</h2>
-                    <div className="conteinerNameCreator">
-                        <label htmlFor="">
-                            Name
+                    <div className="conteinerNameImgCreator">
+                        <label className="labelNameCreator" htmlFor="">
+                            Name *
                         </label>
                         <input 
+                        className="inputNameCreator"
                         type="text"
                         name="pokeName"
                         placeholder="Nombre del pokemon"
@@ -244,11 +245,12 @@ export default function PokeCreator () {
                         onChange={ inputValidator }
                         />
                     </div>
-                    <div className="conteinerUrlImageCretor">
-                        <label htmlFor="">
+                    <div className="conteinerNameImgCreator">
+                        <label className="labelNameCreator" htmlFor="">
                             {`Image (url)`}
                         </label>
                         <input 
+                        className="inputNameCreator"
                         type="url" 
                         name="pokeImg"
                         id="url"
@@ -269,6 +271,7 @@ export default function PokeCreator () {
                                 className="inputPhyCreator"
                                 type="number"
                                 name="height"
+                                step={5}
                                 min="0" 
                                 defaultValue={pokeCache.height}
                                 /* value={ pokemon.height } */
@@ -281,6 +284,7 @@ export default function PokeCreator () {
                                 className="inputPhyCreator"
                                 type="number"
                                 name="weight"
+                                step={5}
                                 min="0" 
                                 defaultValue={pokeCache.weight}
                                 /* value={ pokemon.weight } */
@@ -299,6 +303,7 @@ export default function PokeCreator () {
                                 type="number"
                                 name="attack"
                                 defaultValue={pokeCache.attack}
+                                step={5}
                                 min="0" 
                                 /* value={ pokemon.attack } */
                                 onChange = { inputValidator }
@@ -311,6 +316,7 @@ export default function PokeCreator () {
                                 type="number"
                                 name="defense"
                                 defaultValue={pokeCache.defense}
+                                step={5}
                                 min="0" 
                                 /* value={ pokemon.defense } */
                                 onChange = { inputValidator }
@@ -323,6 +329,7 @@ export default function PokeCreator () {
                                 type="number"
                                 name="hp"
                                 defaultValue={pokeCache.hp}
+                                step={5}
                                 min="0" 
                                 /* value={ pokemon.hp } */
                                 onChange = { inputValidator }
@@ -335,6 +342,7 @@ export default function PokeCreator () {
                                 type="number"
                                 name="velocidad"
                                 defaultValue={pokeCache.velocidad}
+                                step={5}
                                 min="0" 
                                 /* value={ pokemon.velocidad } */
                                 onChange = { inputValidator }
@@ -354,6 +362,9 @@ export default function PokeCreator () {
                             }
                         </ul>
                     </div>
+                    <div>
+                        <p>create button will appear when the necessary information is loaded correctly</p>
+                    </div>
                     <div className="conteinerBtnsCreator">
                         <div className="conteinerBtnMainCreator">
                             <Link to = '/home'>
@@ -366,10 +377,20 @@ export default function PokeCreator () {
                             !errorType.name &&
                             !errorType.attack &&
                             pokemon.name ?
-                            <input className="submitCreator" type="submit" value="Crear"/> : null
+                            <input className="submitCreator" type="submit" value="Create!"/> : null
                         }
                         </div>
                     </div>
+                </div>
+                <div className="thirdColumn" >
+                    <h2>Preview</h2>
+                    <PokePre 
+                    /* name = { pokemon.name }
+                    img = { pokemon.img } 
+                    weight = { pokemon.weight }
+                    height = { pokemon.height } */
+                    poke = { pokemon }
+                    />
                 </div>
                 <div className="secondColumn">
                         <h2>Types</h2>
@@ -406,16 +427,7 @@ export default function PokeCreator () {
                         }
                     </div>
                 </div>
-                <div className="thirdColumn" >
-                    <h2>PREVISUALIZACION</h2>
-                    <PokePre 
-                    /* name = { pokemon.name }
-                    img = { pokemon.img } 
-                    weight = { pokemon.weight }
-                    height = { pokemon.height } */
-                    poke = { pokemon }
-                    />
-                </div>
+
             </div>
             </form> :
             <AfterCreator />

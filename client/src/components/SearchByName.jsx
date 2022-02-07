@@ -32,6 +32,7 @@ export default function SearchByName () {
             <input 
             className="buttonSearchByNameNav"
             type="submit"
+            value={"Search"}
             />
         </form>
     )

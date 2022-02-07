@@ -6,7 +6,9 @@ import { Link, useParams } from "react-router-dom";
 import Loading from "./Loading";
 import Pokemon from "./Pokemon";
 
-import { searchById } from "../actions";
+import { deletePokemon, searchById } from "../actions";
+import { useState } from "react";
+import PokeMessage from "./PokeMessage";
 
 const PokeDetail = () =>{
 
@@ -16,13 +18,31 @@ const PokeDetail = () =>{
     const pokeDetail = useSelector( state => state.pokeDetail);
     const loading = useSelector( state => state.loading );
     const errorSearchById = useSelector( state => state.errorSearchById );
+    const deleted = useSelector( state => state.deleted )
     
     useEffect(() => {
         dispatch( searchById( id ) )
     },[ dispatch, id])
+    
+    const [ alert, setAlert ] = useState( true );
+
+    const handleAlert = () => {
+        alert ?
+        setAlert( false ) :
+        setAlert( true )
+    }
+
+    const handleDelete = () => {
+        setAlert( true );
+        dispatch( deletePokemon( id ) )
+    }
 
     return (
         <>
+        {
+            !deleted ?
+        <>
+        
         {   !errorSearchById.length ?
             ( pokeDetail.name && !loading ) ?
             <div className="conteinerDetail">
@@ -44,9 +64,41 @@ const PokeDetail = () =>{
                                 <h3> {`weight: ${pokeDetail.weight}`} </h3>
                             </div>
                             <h4> {`ID: ${pokeDetail.id}`} </h4>
-                            <Link to = '/home'>
-                                <button className="BtnCreatePokemonsNav">Go Back!</button>
-                            </Link>
+                            <div className="conteinerbtnsDetail">
+                                <div className="conteinerbtnsdeletedetail">
+                                    {
+                                        pokeDetail.fromdb ?
+                                        <>
+                                            { 
+                                                alert ?
+                                                <button
+                                                className="deletebtnDetail"
+                                                onClick={ handleAlert }
+                                                >Delete
+                                                </button> :
+                                                <div>
+                                                    <h3>Are you sure? this action is permanent...</h3>
+                                                    <button
+                                                    className="btnAreYouSureDetailYes"
+                                                    onClick={ handleDelete }
+                                                    >YES
+                                                    </button>
+                                                    <button
+                                                    className="btnAreYouSureDetailNo"                                                    
+                                                    onClick={ handleAlert }
+                                                    >NO
+                                                    </button>
+                                                </div>
+                                            }
+                                        </> : null
+                                    }
+                                </div>
+                                <div >
+                                    <Link to = '/home'>
+                                        <button className="BtnCreatePokemonsNav">Go Back!</button>
+                                    </Link>
+                                </div>
+                            </div>
                         </div> 
                     }
                     </div>
@@ -93,7 +145,14 @@ const PokeDetail = () =>{
                     types={[""]} 
                     />  
             </div>
-        }   
+        }
+        </> : 
+        <PokeMessage 
+        name = { "Your pokemon was deleted"}
+        /* img={"https://i.pinimg.com/originals/00/34/87/003487f3761dfa309aa7f2719c5e1eb0.gif"} */
+        img={"https://c.tenor.com/Kx9EVA2bKJ4AAAAC/pokemon-pikachu.gif"}
+        />
+        }  
         </>
     )
 };

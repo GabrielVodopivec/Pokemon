@@ -9,7 +9,7 @@ import PaginadoArrows from "./PaginadoArrows";
 import OrderByAttack from "./OrderByAttack";
 import OrderAlphabetically from "./OrderAlphabetically";
 
-import { getAllPokemons, resetCreator } from "../actions";
+import { bulkCreate, getAllPokemons, resetCreator } from "../actions";
 import FilterByOrigin from "./FilterByOrigin";
 
 
@@ -18,7 +18,7 @@ export default function NavBar () {
     const dispatch = useDispatch();
     const pokeQuantity = useSelector( state => state.pokemons )
     const errorSearchByName = useSelector( state => state.errorSearchByName )
-
+    /* const bulkDone = useSelector( state => state.bulkDone ) */
     const handleBtnCreate = () => {
         dispatch( resetCreator() )
     }
@@ -28,6 +28,11 @@ export default function NavBar () {
         dispatch( getAllPokemons() )
     }
 
+    const handleBulk = ( event ) => {
+        event.preventDefault()
+        dispatch( bulkCreate() )
+       
+    }
     return (
         <div className="interiorNavbar">
 
@@ -76,6 +81,12 @@ export default function NavBar () {
                     onClick={ handleBtnCreate }
                     >Create!</button>
                 </Link>
+            </div>
+            <div>
+                <button
+                className="BtnCreatePokemonsNav"
+                onClick={ handleBulk }
+                >BulkCreator</button>
             </div>
             </div>
             

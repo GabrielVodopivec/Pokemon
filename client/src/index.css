@@ -54,6 +54,7 @@ body::-webkit-scrollbar {
   justify-content: space-between;
   
 }
+
 .landingPage {
   background: url("./pokemon.png") no-repeat center fixed;
   height: 1560px;
@@ -140,11 +141,13 @@ filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#FF930F", en
 }
 .BtnAllPokemonsNav {
   cursor: pointer;
-  height: 35px;
-  width: 100px;
+  height: 50px;
+  width: 150px;
   border-radius: 15px;
   background-color:#1059A8;
-  color: yellow;
+  color:hsla(44, 100%, 61%, 1);
+  border-color: hsla(39, 100%, 73%, 1);
+  font-size: large;
   font-weight: 500;
 }
 .BtnAllPokemonsNav:hover {
@@ -154,10 +157,11 @@ filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#FF930F", en
 .BtnCreatePokemonsNav {
   cursor: pointer;
   height: 50px;
-  width: 100px;
+  width: 120px;
   border-radius: 15px;
   background-color:#1059A8;
-  color: yellow;
+  color:hsla(44, 100%, 61%, 1);
+  border-color: yellow;
   font-size: large;
   font-weight: 500;
 }
@@ -196,7 +200,9 @@ filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#FF930F", en
   border-radius: 12px;
   
   background-color:#1059A8;
-  color: yellow;
+  color:hsla(39, 100%, 73%, 1);
+  border-color: yellow;
+  font-size: large;
   font-weight: 500;
 }
 .buttonSearchByNameNav:hover {
@@ -238,14 +244,15 @@ filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#FF930F", en
   margin-right: 2px;
   border-radius: 10px;
   background-color: blanchedalmond;
+  border-color: yellow;
 }
 .btnPage:hover {
   -webkit-transform:scale(1.1);transform:scale(1.1);
   transition: 100ms;
 }
 .btnPage:focus {
-  height: 40px;
-  width: 40px;
+  height: 38px;
+  width: 38px;
   font-size: x-large;
   background-color:#1059A8;
   border-color: yellow;
@@ -253,6 +260,20 @@ filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#FF930F", en
   font-weight: 400;
   
 }
+
+.btnPageFocus {
+  margin-left: 2px;
+  margin-right: 2px;
+  border-radius: 10px;
+  height: 38px;
+  width: 38px;
+  font-size: x-large;
+  background-color:#1059A8;
+  border-color: yellow;
+  color:yellow;
+  font-weight: 400;
+}
+
 .btnPageArrow {
   display: flex;
   justify-content: center;
@@ -264,6 +285,8 @@ filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#FF930F", en
   margin-right: 2px;
   border-radius: 10px;
   background-color: blanchedalmond;
+  border-color: yellow;
+  color: #1059A8;
 }
 .btnPageArrow:active {
   background-color:dodgerblue;
@@ -388,10 +411,10 @@ select{
   /* border-style: solid;
   border-color: yellow;
   border-width: 10px; */
-  border-top-left-radius: 5px;
+  border-top-left-radius: 3px;
   border-top-right-radius: 170px;
-  border-bottom-left-radius: 170px;
-  border-bottom-right-radius:5px;
+  border-bottom-left-radius: 150px;
+  border-bottom-right-radius:3px;
   background: hsla(33, 100%, 53%, 1);
 
 background: linear-gradient(90deg, hsla(33, 100%, 53%, 1) 0%, hsla(37, 100%, 95%, 1) 16%, hsla(39, 100%, 73%, 1) 41%, hsla(44, 100%, 61%, 1) 60%, hsla(36, 70%, 50%, 1) 76%, hsla(44, 93%, 60%, 1) 98%);
@@ -418,7 +441,7 @@ filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#FF930F", en
 }
 .pokeTypes {
   width: 150px;
-  height: 50px;
+  height: 65px;
   overflow-y: auto;
 }
 .typesNamePokemon{
@@ -491,6 +514,7 @@ select::backdrop{
   height: auto;
   width: 80%;
 }
+
 .titlePokemon {
   z-index: -1;
   padding-top: 30px;
@@ -501,6 +525,8 @@ select::backdrop{
   align-items: center;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
+  /* border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px; */
   height: 45px;
   width: 100%;
   background: hsla(33, 100%, 53%, 1);
@@ -515,7 +541,7 @@ filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#FF930F", en
   z-index: 1;
 }
 .imgpoke {
-  /* border-radius: 100px; */
+  border-radius: 50px;
   height: 100%;
   width: 100%;
   z-index: 10000;
@@ -525,14 +551,105 @@ filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#FF930F", en
   -webkit-transform:scale(1.5);transform:scale(1.5);
   transition: 400ms;
 }
-.imgpokeError {
-  cursor: pointer;
-  border-radius: 100px;
-  height: 100%;
+
+.PokecardError{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  
+  height: 600px;
+  width: 400px;
+  
+  
+  border-width: 3px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 170px;
+  border-bottom-left-radius: 170px;
+  border-bottom-right-radius:5px;
+  background: hsla(33, 100%, 53%, 1);
+
+  background: linear-gradient(90deg, hsla(33, 100%, 53%, 1) 0%, hsla(37, 100%, 95%, 1) 16%, hsla(39, 100%, 73%, 1) 41%, hsla(44, 100%, 61%, 1) 60%, hsla(36, 70%, 50%, 1) 76%, hsla(44, 93%, 60%, 1) 98%)no-repeat center fixed;
+  
+  background: -moz-linear-gradient(90deg, hsla(33, 100%, 53%, 1) 0%, hsla(37, 100%, 95%, 1) 16%, hsla(39, 100%, 73%, 1) 41%, hsla(44, 100%, 61%, 1) 60%, hsla(36, 70%, 50%, 1) 76%, hsla(44, 93%, 60%, 1) 98%)no-repeat center fixed;
+  
+  background: -webkit-linear-gradient(90deg, hsla(33, 100%, 53%, 1) 0%, hsla(37, 100%, 95%, 1) 16%, hsla(39, 100%, 73%, 1) 41%, hsla(44, 100%, 61%, 1) 60%, hsla(36, 70%, 50%, 1) 76%, hsla(44, 93%, 60%, 1) 98%)no-repeat center fixed;
+  
+  filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#FF930F", endColorstr="#FFF5E5", GradientType=1 );
+}
+
+.imgCardError{
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  
+  height: 110px;
   width: 100%;
+}
+.btnpokeError {
+  font-size: x-large;
+  font-weight: 600;
+  cursor: pointer;
+  height: 100px;
+  width: 400px;
+  border-color: transparent;
+  border-top-right-radius: 100px;
+  border-top-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  background: hsla(33, 100%, 53%, 1);
+
+background: linear-gradient(90deg, hsla(33, 100%, 53%, 1) 0%, hsla(37, 100%, 95%, 1) 16%, hsla(39, 100%, 73%, 1) 41%, hsla(44, 100%, 61%, 1) 60%, hsla(36, 70%, 50%, 1) 76%, hsla(44, 93%, 60%, 1) 98%);
+
+background: -moz-linear-gradient(90deg, hsla(33, 100%, 53%, 1) 0%, hsla(37, 100%, 95%, 1) 16%, hsla(39, 100%, 73%, 1) 41%, hsla(44, 100%, 61%, 1) 60%, hsla(36, 70%, 50%, 1) 76%, hsla(44, 93%, 60%, 1) 98%);
+
+background: -webkit-linear-gradient(90deg, hsla(33, 100%, 53%, 1) 0%, hsla(37, 100%, 95%, 1) 16%, hsla(39, 100%, 73%, 1) 41%, hsla(44, 100%, 61%, 1) 60%, hsla(36, 70%, 50%, 1) 76%, hsla(44, 93%, 60%, 1) 98%);
+
+filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#FF930F", endColorstr="#FFF5E5", GradientType=1 );
+  z-index: 1;
+}
+.btnpokeError:hover {
+  -webkit-transform:scale(1.1);transform:scale(1.1);
+  transition: 400ms;
+}
+input {
+  border-color: transparent;
+}
+
+.imgpokeError {
+  
+  border-radius: 20px;
+  height: 250px;
+  width: 400px;
   border-color: transparent;
   background-color: transparent;
 }
+
+.titlePokemonError {
+  z-index: -1;
+  margin-top: 5px;
+  padding: 0%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom-left-radius: 100px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  height: 110px;
+  width: 400px;
+  background: hsla(33, 100%, 53%, 1);
+
+background: linear-gradient(90deg, hsla(33, 100%, 53%, 1) 0%, hsla(37, 100%, 95%, 1) 16%, hsla(39, 100%, 73%, 1) 41%, hsla(44, 100%, 61%, 1) 60%, hsla(36, 70%, 50%, 1) 76%, hsla(44, 93%, 60%, 1) 98%);
+
+background: -moz-linear-gradient(90deg, hsla(33, 100%, 53%, 1) 0%, hsla(37, 100%, 95%, 1) 16%, hsla(39, 100%, 73%, 1) 41%, hsla(44, 100%, 61%, 1) 60%, hsla(36, 70%, 50%, 1) 76%, hsla(44, 93%, 60%, 1) 98%);
+
+background: -webkit-linear-gradient(90deg, hsla(33, 100%, 53%, 1) 0%, hsla(37, 100%, 95%, 1) 16%, hsla(39, 100%, 73%, 1) 41%, hsla(44, 100%, 61%, 1) 60%, hsla(36, 70%, 50%, 1) 76%, hsla(44, 93%, 60%, 1) 98%);
+
+filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#FF930F", endColorstr="#FFF5E5", GradientType=1 );
+  z-index: 1;
+}
+
 .loadingPage {
   height: 700px;
   width: 100%;
@@ -692,6 +809,72 @@ filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#FF930F", en
   border-radius: 4px;
   background-color:#957C75;
 }
+
+.conteinerbtnsdeletedetail{
+  /* border-style: solid;
+  border-width: 2px;
+  border-color: black;
+  border-radius: 10px; */
+
+  height: 150px;
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.deletebtnDetail {
+  cursor: pointer;
+  height: 50px;
+  width: 100px;
+  border-radius: 15px;
+  color:hsla(44, 93%, 60%, 1);
+  font-size: large;
+  font-weight: 500;
+  background-color:darkred;
+}
+
+.deletebtnDetail:hover {
+  -webkit-transform:scale(1.2);transform:scale(1.2);
+  transition: 100ms;
+}
+
+.btnAreYouSureDetailYes {
+  cursor: pointer;
+  margin: 5px;
+  height: 50px;
+  width: 100px;
+  border-radius: 15px;
+  color:hsla(44, 93%, 60%, 1);
+  font-size: large;
+  font-weight: 500;
+  background-color:darkred;
+}
+
+.btnAreYouSureDetailYes:hover {
+  -webkit-transform:scale(1.2);transform:scale(1.2);
+  transition: 100ms;
+}
+
+.btnAreYouSureDetailNo {
+  cursor: pointer;
+  margin: 5px;
+  height: 50px;
+  width: 100px;
+  border-radius: 15px;
+  color:hsla(44, 100%, 61%, 1);
+  font-size: large;
+  font-weight: 500;
+  background-color:#1059A8
+}
+
+.btnAreYouSureDetailNo:hover {
+  -webkit-transform:scale(1.2);transform:scale(1.2);
+  transition: 100ms;
+}
+
+
 .form {
 
   width: 100%;
@@ -772,8 +955,30 @@ filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#FF930F", en
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
-  height: 100px;
+  height: 130px;
   width: 100%;
+}
+
+.conteinerNameImgCreator{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 40px;
+  width: 80%;
+}
+
+.labelNameCreator {
+  font-size: large;
+  font-weight: 600;
+  width: 100px;
+}
+.inputNameCreator {
+  width: 250px;
+  height: 20px;
+
+  border-radius: 9px;
+  border-color: transparent;
 }
 .titleBattleStatsCreator {
   width: 100px;
@@ -783,8 +988,14 @@ filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#FF930F", en
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  margin: 2px;
+  height: 20px;
 }
 .conteinerBattleStatsCreator {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 120px;
   width: 150px;
 }
 .labelBattleCreator{
@@ -806,7 +1017,7 @@ filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#FF930F", en
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 300px;
+  height: 230px;
   width: 100%;
 }
 .problemsCreator{
@@ -1031,6 +1242,8 @@ input[type="checkbox"]+ label {
   align-items: center;
 }
 .physicalTitlePrev{
+  font-size: large;
+  font-weight: 600;
  width: 50px;
 }
 .physicalValuePrev{
@@ -1098,6 +1311,11 @@ width: 20px;
   background-color:#957C75;
 }
 
+.typesPrev {
+  padding-top: 7px;
+  font-size: large;
+  font-weight: 550;
+}
 
 .afterCreator{
   

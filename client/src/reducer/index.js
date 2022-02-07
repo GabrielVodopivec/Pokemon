@@ -1,4 +1,4 @@
-import { BACK_TO_CREATOR, CLEAN_CACHE, EDITING_AGAIN, ERROR_SEARCH_BY_ID, ERROR_SEARCH_BY_NAME, EXISTENT_POKEMON, FILTER_BY_ORIGIN, FILTER_BY_TYPE, GET_ALL_POKEMONS, GET_TYPES, LOADING, ORDER_ALPHABETICALLY, ORDER_BY_ATTACK, POKEMON_CREATED, RESET_CREATED, SEARCH_BY_ID, SEARCH_BY_NAME, SELECT_PAGE, SET_DETAIL } from "../actionTypes";
+import { BACK_TO_CREATOR, BULK_CREATE, CLEAN_CACHE, DELETE_POKEMON, EDITING_AGAIN, ERROR_SEARCH_BY_ID, ERROR_SEARCH_BY_NAME, EXISTENT_POKEMON, FILTER_BY_ORIGIN, FILTER_BY_TYPE, GET_ALL_POKEMONS, GET_TYPES, LOADING, ORDER_ALPHABETICALLY, ORDER_BY_ATTACK, POKEMON_CREATED, RESET_CREATED, SEARCH_BY_ID, SEARCH_BY_NAME, SELECT_PAGE, SET_DETAIL } from "../actionTypes";
 
 const initialState = {
     allPokemons: [],
@@ -11,7 +11,9 @@ const initialState = {
     back: false,
     creating: true,
     created: false,
+    deleted: false,
     loading: false,
+    bulkDone: false,
     errorSearchByName: "",
     errorSearchById: "",
     page: 1,
@@ -25,9 +27,15 @@ const rootReducer = ( state = initialState, action ) => {
             ...state,
             creating: false,
             loading:false,
+            
             pokeCache:{},
             createdPokemon: action.payload.pokemonCreated,
             created: action.payload.wasCreated
+            }
+        case DELETE_POKEMON:
+            return {
+                ...state,
+                deleted: true
             }
         case EXISTENT_POKEMON:
             return {
@@ -71,6 +79,7 @@ const rootReducer = ( state = initialState, action ) => {
                 pokemons: action.payload,
                 loading: false,
                 inDetail:true,
+                deleted: false,
                 errorSearchByName: "",
                 errorSearchById: "",
                 page: 1
@@ -240,6 +249,11 @@ const rootReducer = ( state = initialState, action ) => {
             return {
                 ...state,
                 page: action.payload
+            }
+        case BULK_CREATE:
+            return {
+                ...state,
+                inDetail:false
             }
         default: return state
     }

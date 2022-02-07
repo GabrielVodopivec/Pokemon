@@ -9,6 +9,7 @@ const PaginadoButtons = () => {
 
     const pokemons = useSelector( state => state.pokemons );
     const pokemonsPerPage = useSelector( state => state.pokemonsPerPage );
+    const actualPage = useSelector( state => state.page )
 
     const quantityOfButtons = Math.ceil( pokemons.length/pokemonsPerPage)
 
@@ -36,7 +37,8 @@ const PaginadoButtons = () => {
                         <button
                         key={ page }
                         value={ page }
-                        className="btnPage"
+                        className={(actualPage === page)? "btnPageFocus" : "btnPage"}
+                        
                         onClick={ handleClick }
                         > { page } </button>
                     )

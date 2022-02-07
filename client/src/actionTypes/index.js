@@ -19,4 +19,7 @@ export const EXISTENT_POKEMON = "EXISTENT_POKEMON";
 export const RESET_CREATED = "RESET_CREATED";
 export const EDITING_AGAIN = "EDITING_AGAIN";
 export const SET_DETAIL = "SET_DETAIL";
-export const CLEAN_CACHE = "CLEAN_CACHE"
+export const CLEAN_CACHE = "CLEAN_CACHE";
+
+export const DELETE_POKEMON = "DELETE_POKEMON";
+export const BULK_CREATE = "BULK_CREATE"

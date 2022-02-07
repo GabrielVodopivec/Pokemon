@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllPokemons } from "../actions";
 import Loading from "./Loading";
 import NavBar from "./NavBar";
+import PokeMessage from "./PokeMessage";
 
 import Pokemon from "./Pokemon";
 
@@ -52,11 +53,9 @@ export default function Home () {
                         ) 
                     })  : 
                     <div>
-                    <Pokemon 
-                    /* img={"https://i.pinimg.com/474x/59/8c/5d/598c5da8a0cf4d50a8e55bf93307b251--fanart-pokemon-moment.jpg"} */
+                    <PokeMessage
+                    name={ errorSearchByName }
                     img={"https://i1.wp.com/www.sopitas.com/wp-content/uploads/2017/07/pikachu.gif"}
-                    name={ errorSearchByName } 
-                    types={[""]} 
                     />  
                     </div> 
                 } 
