@@ -4,9 +4,10 @@ const axios = require('axios')
 // Importar todos los routers;
 // Ejemplo: const authRouter = require('./auth.js');
 const { pokemon, types } = require('../db');
-const { getPokemons, getTypes } = require("./getInfo")
+const { getPokemons, getTypes, morePokemons } = require("./getInfo")
 let allPokemons = getPokemons();
 const pokeTpyes = getTypes()
+const pokemonsToBulk = morePokemons();
 const router = Router();
 // Configurar los routers
 // Ejemplo: router.use('/auth', authRouter);
@@ -56,7 +57,7 @@ router.get('/pokemons', ( req, res ) => {
                 pokemon.findOne({
                     where: {
                         name: {
-                            [Op.iLike]: `%${ name }`
+                            [Op.iLike]: `${ name }`
                         }
                     },
                     include: [{
@@ -207,6 +208,63 @@ router.post('/pokemons', async ( req, res ) => {
     }
     
     allPokemons = getPokemons();
+})
+
+router.delete('/pokemons/:id', async ( req, res ) => {
+
+    const { id } = req.params;
+
+    try {
+        const deletedPokemon = await pokemon.destroy({
+            where: { id }
+        });
+        res.status( 200 ).send({ 
+            data: "Pokemon Deleted", 
+            pokemon: deletedPokemon 
+        })
+        
+    } catch ( error ) {
+        console.log( error );
+    }
+    allPokemons = getPokemons();
+})
+
+router.post('/bulkCreate', async ( req, res ) => {
+    try {
+        const arr = [];
+        const tipos = await pokemonsToBulk
+        const bulked = await pokemon.bulkCreate( tipos )
+        const uno = tipos.map(( poke ) => {
+            return poke.types.map(( element )=>{
+                return element.name
+            })
+        })
+        for ( let i = 0; i < uno.length; i++ ) {
+            arr.push( types.findAll({
+                where: {
+                    name: uno[i]
+                }
+            }))
+        }
+        
+        Promise.all( arr )
+        .then(( r )=> {
+            const arr = [];
+            for( let i = 0; i < r.length; i++ ) {
+                arr.push( bulked[i].addTypes( r[i] ) )
+            }
+            Promise.all( arr )
+        })
+        .then(() => {
+            res.status( 200 ).send( "ok" )
+        })
+        .catch(( error  =>{
+            console.log( error )
+        }))
+        allPokemons = getPokemons();
+    } catch ( error ) {
+        console.log( error )
+    }
 })
 
 module.exports = router;
