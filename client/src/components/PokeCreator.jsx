@@ -1,22 +1,24 @@
 import React, { useState } from "react";
-
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { createPokemon, editingAgain, getAllPokemons } from "../actions";
-import AfterCreator from "./AfterCreator";
+import { useDispatch, useSelector } from "react-redux";
 
+import AfterCreator from "./AfterCreator";
 import PokePre from "./PokePre";
 import Loading from "./Loading"
-import { useEffect } from "react";
+
+import { createPokemon, editingAgain, getAllPokemons } from "../actions";
 
 export default function PokeCreator () {
 
     const dispatch = useDispatch();
-    const types = useSelector( state => state.types)
-    const creating = useSelector( state => state.creating )
-    const loading = useSelector( state => state.loading )
-    const back = useSelector( state => state.back )
-    const pokeCache = useSelector( state => state.pokeCache )
+    const types = useSelector( state => state.types);
+    const creating = useSelector( state => state.creating );
+    const loading = useSelector( state => state.loading );
+    const back = useSelector( state => state.back );
+    const pokeCache = useSelector( state => state.pokeCache );
+    const created = useSelector( state => state.created );
+
     const [ pokemon, setPokemon ] = useState({
         name: "",
         img: "",
@@ -26,7 +28,8 @@ export default function PokeCreator () {
         velocidad: 0,
         height: 0,
         weight: 0,
-        pokeTypes: []
+        pokeTypes: [],
+        bulked:false
     })
 
     const [ errorType, setErrorType ] = useState({
@@ -39,7 +42,20 @@ export default function PokeCreator () {
         weight: ""
     })
 
+    const resetCheckbox = () => {
+        let i = 0;
+        let arr = []
+        while ( i < window.document.getElementsByClassName("selectType-creator").length) {
+            arr.push(window.document.getElementsByClassName("selectType-creator")[i].checked = false)
+            i++
+        }
+        return arr
+    }
+
     useEffect(() => {
+        
+        if (created) resetCheckbox();
+
         back && setPokemon({
             name: pokeCache.name,
             img: pokeCache.img,
@@ -49,10 +65,12 @@ export default function PokeCreator () {
             velocidad: pokeCache.velocidad,
             height: pokeCache.height,
             weight: pokeCache.weight,
-            pokeTypes: pokeCache.pokeTypes
+            pokeTypes: pokeCache.pokeTypes,
+            bulked:false
         })
+        
         dispatch( editingAgain())
-    }, [dispatch, back, pokeCache])
+    }, [dispatch, created, back, pokeCache])
 
     const inputValidator = ( event ) =>{
         
@@ -201,9 +219,10 @@ export default function PokeCreator () {
             default: break;
         }
     }
-
+    
     const handleSubmit = ( event ) => {
-        event.preventDefault()
+        event.preventDefault();
+        
         dispatch( createPokemon( pokemon ) )
         setPokemon({
             name: "",
@@ -214,20 +233,19 @@ export default function PokeCreator () {
             velocidad: 0,
             height: 0,
             weight: 0,
-            pokeTypes: []
+            pokeTypes: [],
+            bulked:false
         })
+       
     }
+    
     const handleMainPage = () => {
         dispatch( getAllPokemons() )
     }
     return (
         <>
-        {
-
-        !loading ?
-        <>
-        {
-            creating ?
+        
+        
             <form 
             className="form"
             onSubmit={ handleSubmit }
@@ -274,10 +292,12 @@ export default function PokeCreator () {
                                 className="inputPhyCreator"
                                 type="number"
                                 name="height"
-                                step={5}
+                                /* step={5} */
                                 min="0" 
-                                defaultValue={pokeCache.height}
-                                /* value={ pokemon.height } */
+                                value={ pokemon.height }
+                                
+                                /* defaultValue={pokeCache.height} */
+                                /* defaultValue={""} */
                                 onChange = { inputValidator }
                                 />
                             </div>
@@ -287,10 +307,11 @@ export default function PokeCreator () {
                                 className="inputPhyCreator"
                                 type="number"
                                 name="weight"
-                                step={5}
+                                /* step={5} */
                                 min="0" 
-                                defaultValue={pokeCache.weight}
-                                /* value={ pokemon.weight } */
+                                /* defaultValue={""} */
+                                /* defaultValue={pokeCache.weight} */
+                                value={ pokemon.weight }
                                 onChange = { inputValidator }
                                 />
                             </div>
@@ -305,10 +326,11 @@ export default function PokeCreator () {
                                 className="inputBattleStatsCreator"
                                 type="number"
                                 name="attack"
-                                defaultValue={pokeCache.attack}
-                                step={5}
+                                /* defaultValue={""} */
+                                /* defaultValue={pokeCache.attack} */
+                                /* step={5} */
                                 min="0" 
-                                /* value={ pokemon.attack } */
+                                value={ pokemon.attack }
                                 onChange = { inputValidator }
                                 />
                             </div>
@@ -318,10 +340,11 @@ export default function PokeCreator () {
                                 className="inputBattleStatsCreator" 
                                 type="number"
                                 name="defense"
-                                defaultValue={pokeCache.defense}
-                                step={5}
+                                /* defaultValue={""} */
+                                /* defaultValue={pokeCache.defense} */
+                                /* step={5} */
                                 min="0" 
-                                /* value={ pokemon.defense } */
+                                value={ pokemon.defense }
                                 onChange = { inputValidator }
                                 />
                             </div>
@@ -331,10 +354,11 @@ export default function PokeCreator () {
                                 className="inputBattleStatsCreator"
                                 type="number"
                                 name="hp"
-                                defaultValue={pokeCache.hp}
-                                step={5}
+                                /* defaultValue={""} */
+                                /* defaultValue={pokeCache.hp} */
+                                /* step={5} */
                                 min="0" 
-                                /* value={ pokemon.hp } */
+                                value={ pokemon.hp }
                                 onChange = { inputValidator }
                                 />
                             </div>
@@ -344,10 +368,11 @@ export default function PokeCreator () {
                                 className="inputBattleStatsCreator"
                                 type="number"
                                 name="velocidad"
-                                defaultValue={pokeCache.velocidad}
-                                step={5}
+                                /* defaultValue={""} */
+                                /* defaultValue={pokeCache.velocidad} */
+                                /* step={5} */
                                 min="0" 
-                                /* value={ pokemon.velocidad } */
+                                value={ pokemon.velocidad }
                                 onChange = { inputValidator }
                                 />
                             </div>
@@ -392,12 +417,27 @@ export default function PokeCreator () {
                         </div>
                     </div>
                 </div>
-                <div className="thirdColumn" >
-                    <h2>Preview</h2>
-                    <PokePre 
-                    poke = { pokemon }
-                    />
-                </div>
+                {
+                    !loading ?
+                    <>
+                        {
+                            creating ?
+                            <div className="thirdColumn" >
+                                <h2>Preview</h2>
+                                <PokePre 
+                                poke = { pokemon }
+                                />
+                            </div> :
+                            <div className="thirdColumn">
+                            <AfterCreator />
+                            </div>
+                        }
+                    </> :
+                    <div className="thirdColumn">
+
+                    <Loading />
+                    </div>
+                }
                 <div className="secondColumn">
                         <h2>Types</h2>
                     <div className="typesConteiner">
@@ -413,11 +453,12 @@ export default function PokeCreator () {
                                         type="checkbox"
                                         id={ el.name }
                                         name="type"
-                                        defaultChecked = {
+                                        /* defaultChecked = {
                                            pokeCache.pokeTypes ?
                                            pokeCache.pokeTypes.some( ele => ele === el.name ) :
                                            null
                                         }
+                                         */
                                         value={ el.name }
                                         onChange={ inputValidator } 
                                         />
@@ -433,14 +474,10 @@ export default function PokeCreator () {
                         }
                     </div>
                 </div>
-
             </div>
-            </form> :
-            <AfterCreator />
-        }
-        </> :
-        <Loading />
-        }
+            </form> 
+        
+        
         </>
     )
 }

@@ -69,27 +69,36 @@ const PokeDetail = () =>{
                                     {
                                         pokeDetail.fromdb ?
                                         <>
-                                            { 
-                                                alert ?
+                                            <div className="conteinerBtnEditDetail">
                                                 <button
-                                                className="deletebtnDetail"
-                                                onClick={ handleAlert }
-                                                >Delete
-                                                </button> :
-                                                <div>
-                                                    <h3>Are you sure? this action is permanent...</h3>
-                                                    <button
-                                                    className="btnAreYouSureDetailYes"
-                                                    onClick={ handleDelete }
-                                                    >YES
-                                                    </button>
-                                                    <button
-                                                    className="btnAreYouSureDetailNo"                                                    
-                                                    onClick={ handleAlert }
-                                                    >NO
-                                                    </button>
+                                                className="EditBtnDetail"
+                                                >Edit</button>
+                                            </div>
+                                            <div className="conteinerBtnsDeleteDetail">
+                                                <div className="btnsDeleteDetail">
+                                                    { 
+                                                        alert ?
+                                                        <button
+                                                        className="deletebtnDetail"
+                                                        onClick={ handleAlert }
+                                                        >Delete
+                                                        </button> :
+                                                        <div>
+                                                            <h3>Are you sure? this action is permanent...</h3>
+                                                            <button
+                                                            className="btnAreYouSureDetailYes"
+                                                            onClick={ handleDelete }
+                                                            >YES
+                                                            </button>
+                                                            <button
+                                                            className="btnAreYouSureDetailNo"                                                    
+                                                            onClick={ handleAlert }
+                                                            >NO
+                                                            </button>
+                                                        </div>
+                                                    }
                                                 </div>
-                                            }
+                                            </div>
                                         </> : null
                                     }
                                 </div>

@@ -38,6 +38,10 @@ const pokemon = ( sequelize ) => {
     fromdb: {
       type: DataTypes.BOOLEAN,
       defaultValue: true
+    },
+    bulked: {
+      type:DataTypes.BOOLEAN,
+      defaultValue:true
     }
   },{
     sequelize,

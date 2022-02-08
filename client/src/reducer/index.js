@@ -1,4 +1,4 @@
-import { BACK_TO_CREATOR, BULK_CREATE, CLEAN_CACHE, DELETE_POKEMON, EDITING_AGAIN, ERROR_SEARCH_BY_ID, ERROR_SEARCH_BY_NAME, EXISTENT_POKEMON, FILTER_BY_ORIGIN, FILTER_BY_TYPE, GET_ALL_POKEMONS, GET_TYPES, LOADING, ORDER_ALPHABETICALLY, ORDER_BY_ATTACK, POKEMON_CREATED, RESET_CREATED, SEARCH_BY_ID, SEARCH_BY_NAME, SELECT_PAGE, SET_DETAIL } from "../actionTypes";
+import { BACK_TO_CREATOR, BULK_CREATE, CHECK_BULK, CLEAN_CACHE, DELETE_POKEMON, EDITING_AGAIN, ERROR_SEARCH_BY_ID, ERROR_SEARCH_BY_NAME, EXISTENT_POKEMON, FILTER_BY_ORIGIN, FILTER_BY_TYPE, GET_ALL_POKEMONS, GET_TYPES, LOADING, ORDER_ALPHABETICALLY, ORDER_BY_ATTACK, POKEMON_CREATED, RESET_CREATED, SEARCH_BY_ID, SEARCH_BY_NAME, SELECT_PAGE, SET_DETAIL } from "../actionTypes";
 
 const initialState = {
     allPokemons: [],
@@ -9,11 +9,12 @@ const initialState = {
     createdPokemon: {},
     pokeCache:{},
     back: false,
+    createAnother: false,
     creating: true,
     created: false,
     deleted: false,
     loading: false,
-    bulkDone: false,
+    needBulk: false,
     errorSearchByName: "",
     errorSearchById: "",
     page: 1,
@@ -65,6 +66,7 @@ const rootReducer = ( state = initialState, action ) => {
                 ...state,
                 pokeCache:{},
                 created:false,
+                createAnother: true,
                 creating:true
             }
         case SET_DETAIL: 
@@ -97,10 +99,15 @@ const rootReducer = ( state = initialState, action ) => {
                 pokemons: action.payload,
                 page: 1,
             }
+        case "FILL_CACHE":
+            return {
+                ...state,
+                pokeCache:action.payload
+            }
         case LOADING:
             return {
                 ...state,
-                pokeCache:action.payload,
+                /* pokeCache:action.payload, */
                 loading: true
             }
         case ERROR_SEARCH_BY_NAME:
@@ -253,8 +260,25 @@ const rootReducer = ( state = initialState, action ) => {
         case BULK_CREATE:
             return {
                 ...state,
-                inDetail:false
+                inDetail:false,
+                bulkDone: true
             }
+        case CHECK_BULK:
+            const pokes = state.allPokemons;
+            const bulked = pokes.some(( poke ) => {
+                return poke.bulked
+            })
+            if ( !bulked ) {
+                return {
+                    ...state,
+                    needBulk: true,
+                }
+            } else {
+                return {
+                    ...state,
+                    needBulk: false
+                }
+            }    
         default: return state
     }
 }

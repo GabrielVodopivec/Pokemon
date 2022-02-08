@@ -8,38 +8,35 @@ import FilterByType from "./FilterByType"
 import PaginadoArrows from "./PaginadoArrows";
 import OrderByAttack from "./OrderByAttack";
 import OrderAlphabetically from "./OrderAlphabetically";
-
-import { bulkCreate, getAllPokemons, resetCreator } from "../actions";
 import FilterByOrigin from "./FilterByOrigin";
 
+import { bulkCreate, getAllPokemons, resetCreator } from "../actions";
 
 export default function NavBar () {
 
     const dispatch = useDispatch();
-    const pokeQuantity = useSelector( state => state.pokemons )
-    const errorSearchByName = useSelector( state => state.errorSearchByName )
-    /* const bulkDone = useSelector( state => state.bulkDone ) */
+    const pokeQuantity = useSelector( state => state.pokemons );
+    const errorSearchByName = useSelector( state => state.errorSearchByName );
+    const needBulk = useSelector( state => state.needBulk );
+
     const handleBtnCreate = () => {
-        dispatch( resetCreator() )
-    }
+        dispatch( resetCreator() );
+    };
 
     const handleClick = ( event ) => {
         event.preventDefault();
-        dispatch( getAllPokemons() )
-    }
+        dispatch( getAllPokemons() );
+    };
 
-    const handleBulk = ( event ) => {
-        event.preventDefault()
-        dispatch( bulkCreate() )
-       
-    }
+    const handleBulk = () => {
+        dispatch( bulkCreate() );
+    };
+
     return (
         <div className="interiorNavbar">
-
             <div className="principalTitle">
                  <img className="titile" src="http://24.media.tumblr.com/232a91726b505a0e8ef44648ca7cc854/tumblr_mjflojSWnr1s1byhpo1_500.gif" alt="Img not found" />
             </div>
-            
             <div className="quantity">
                 { 
                     !errorSearchByName.length ? 
@@ -49,7 +46,6 @@ export default function NavBar () {
                     null
                 }
             </div>
-
             <div className="conteinerSearchByNameNav">
                 <SearchByName />
             </div>
@@ -74,25 +70,38 @@ export default function NavBar () {
                     <button
                     className="BtnCreatePokemonsNav"
                     onClick={ handleBtnCreate }
-                    >Create!</button>
+                    >
+                        Create!
+                    </button>
                 </Link>
             </div>
-            <div>
-                <button
-                className="BtnCreatePokemonsNav"
-                onClick={ handleBulk }
-                >BulkCreator</button>
+            <div className="bulkbtnNav">
+                {
+                    needBulk ? 
+                    <button
+                    className="BtnCreatePokemonsNav"
+                    onClick={ handleBulk }
+                    >
+                        BulkCreator
+                    </button> : 
+                    <button
+                    disabled
+                    className="BtnCreatePokemonsNav"
+                    onClick={ handleBulk }
+                    >
+                        BulkCreator
+                    </button>
+                }
             </div>
             <div className="conteinerBtnAllPokemonsNav">
                 <button
                 className="BtnAllPokemonsNav"
                 onClick={ handleClick }
-                >Show All Pokemons</button>
+                >
+                    Show All Pokemons
+                </button>
             </div>
             </div>
-            
         </div>
-        
-        
     )
-}
+};

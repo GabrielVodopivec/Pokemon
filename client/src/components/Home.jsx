@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllPokemons } from "../actions";
+import { checkBulk, getAllPokemons } from "../actions";
 import Loading from "./Loading";
 import NavBar from "./NavBar";
 import PokeMessage from "./PokeMessage";
@@ -25,6 +25,7 @@ export default function Home () {
 
     useEffect(() => {
       !inDetail &&  dispatch( getAllPokemons() );
+      dispatch( checkBulk() )
     }, [ dispatch, inDetail ])
 
     return (

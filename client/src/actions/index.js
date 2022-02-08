@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { BACK_TO_CREATOR, BULK_CREATE, CLEAN_CACHE, DELETE_POKEMON, EDITING_AGAIN, ERROR_SEARCH_BY_ID, ERROR_SEARCH_BY_NAME, EXISTENT_POKEMON, FILTER_BY_ORIGIN, FILTER_BY_TYPE, GET_ALL_POKEMONS, GET_TYPES, LOADING, ORDER_ALPHABETICALLY, ORDER_BY_ATTACK, POKEMON_CREATED, RESET_CREATED, SEARCH_BY_ID, SEARCH_BY_NAME, SELECT_PAGE, SET_DETAIL } from '../actionTypes';
+import { BACK_TO_CREATOR, BULK_CREATE, CHECK_BULK, CLEAN_CACHE, DELETE_POKEMON, EDITING_AGAIN, ERROR_SEARCH_BY_ID, ERROR_SEARCH_BY_NAME, EXISTENT_POKEMON, FILTER_BY_ORIGIN, FILTER_BY_TYPE, GET_ALL_POKEMONS, GET_TYPES, LOADING, ORDER_ALPHABETICALLY, ORDER_BY_ATTACK, POKEMON_CREATED, RESET_CREATED, SEARCH_BY_ID, SEARCH_BY_NAME, SELECT_PAGE, SET_DETAIL } from '../actionTypes';
 
 export const getAllPokemons = () => {
     return dispatch => {
@@ -35,7 +35,7 @@ export const searchByName = ( name ) => {
         dispatch({
             type: LOADING
         })
-        axios(`http://localhost:3001/pokemons?name=${name}`)
+        axios(`http://localhost:3001/pokemons?name=${name.trim()}`)
         .then(( response ) => {
             return dispatch({
                 type: SEARCH_BY_NAME,
@@ -103,12 +103,19 @@ export const createPokemon = ({
     velocidad,
     height,
     weight,
-    pokeTypes
+    pokeTypes,
+    bulked
 }) => {
     return ( dispatch ) => {
         dispatch({
             type: LOADING,
-            payload: {
+        })
+        
+        axios(`http://localhost:3001/pokemons?name=${name.trim()}`)
+        .then(() => {
+            dispatch({
+                type: "FILL_CACHE",
+                payload: {
                 name,
                 img,
                 hp,
@@ -117,15 +124,14 @@ export const createPokemon = ({
                 velocidad,
                 height,
                 weight,
-                pokeTypes
-            }
-        })
-        axios(`http://localhost:3001/pokemons?name=${name}`)
-        .then(() => {
-            
+                pokeTypes,
+                bulked
+                }
+            })
             dispatch({
                 type: EXISTENT_POKEMON
             })
+            
         })
         .catch(() => {
             axios.post(`http://localhost:3001/pokemons`, {
@@ -137,7 +143,8 @@ export const createPokemon = ({
                 velocidad,
                 height,
                 weight,
-                pokeTypes
+                pokeTypes,
+                bulked
             })
             .then(( response ) => {
                 console.log('se hizo el post')
@@ -200,7 +207,7 @@ export const deletePokemon = ( id ) => {
 export const bulkCreate = () => {
     return ( dispatch ) => {
 
-        axios.post(`http://localhost:3001/bulkCreate`)
+        axios.post(`http://localhost:3001/pokeomons/bulkCreate`)
         
         .then( () => {
             console.log("Bulk Done")
@@ -211,5 +218,10 @@ export const bulkCreate = () => {
         .catch(() => {
             console.log("hubo problemas con el bulk")
         })
+    }
+}
+export const checkBulk = () => {
+    return {
+        type: CHECK_BULK
     }
 }

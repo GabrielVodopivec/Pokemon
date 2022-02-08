@@ -85,7 +85,7 @@ router.get('/pokemons', ( req, res ) => {
             })
 
     } else {
-
+        
         allPokemons
         .then(( response ) => {
             res.status( 200 ).send( response )
@@ -165,7 +165,8 @@ router.post('/pokemons', async ( req, res ) => {
         velocidad,
         height,
         weight,
-        pokeTypes
+        pokeTypes,
+        bulked
     } = req.body;
 
     try {
@@ -178,7 +179,8 @@ router.post('/pokemons', async ( req, res ) => {
                 defense,
                 velocidad,
                 height,
-                weight
+                weight,
+                bulked
             }
         })
         const typesDb = await types.findAll({
@@ -229,42 +231,64 @@ router.delete('/pokemons/:id', async ( req, res ) => {
     allPokemons = getPokemons();
 })
 
-router.post('/bulkCreate', async ( req, res ) => {
+router.post('/pokeomons/bulkCreate', async ( req, res ) => {
     try {
-        const arr = [];
-        const tipos = await pokemonsToBulk
-        const bulked = await pokemon.bulkCreate( tipos )
-        const uno = tipos.map(( poke ) => {
+        const pokesToBulk = await pokemonsToBulk
+        const bulked = await pokemon.bulkCreate( pokesToBulk )
+        const uno = pokesToBulk.map(( poke ) => {
             return poke.types.map(( element )=>{
                 return element.name
             })
         })
-        for ( let i = 0; i < uno.length; i++ ) {
+        
+            
+        const arr = [];
+        for ( let i = 0; i < pokesToBulk.length; i++ ) {
             arr.push( types.findAll({
                 where: {
                     name: uno[i]
                 }
             }))
         }
-        
+            
         Promise.all( arr )
         .then(( r )=> {
             const arr = [];
             for( let i = 0; i < r.length; i++ ) {
                 arr.push( bulked[i].addTypes( r[i] ) )
             }
+            return arr;
+        })
+        .then(( arr ) => {
             Promise.all( arr )
         })
-        .then(() => {
-            res.status( 200 ).send( "ok" )
+        .then( async () => {
+           const created = await pokemon.findAll({
+                include: [{
+                    model: types,
+                    attributes: ['name'],
+                    through: {
+                        attributes: []
+                    }
+                }]
+            })
+            return created;
         })
-        .catch(( error  =>{
+        .then(( response ) => {
+            allPokemons = getPokemons();
+            return response;
+        })
+        .then(( recived ) => {
+            res.status( 200 ).send( {data: "Bulked Done ", recived} )
+        })
+        .catch(( error ) => {
             console.log( error )
-        }))
-        allPokemons = getPokemons();
+        })
+        
     } catch ( error ) {
         console.log( error )
     }
+    /* allPokemons = getPokemons(); */
 })
 
 module.exports = router;

@@ -1,27 +1,29 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-
 import { Link } from "react-router-dom";
+
 import { backToCreator, getAllPokemons, resetCreator } from "../actions";
+
 const AfterCreator = () => {
     const dispatch = useDispatch();
     const created = useSelector( state => state.created );
 
     const handleMainPage = () => {
-        dispatch( getAllPokemons() )
-    }
+        dispatch( getAllPokemons() );
+    };
+
     const handleClick = ( event ) => {
-        event.preventDefault();
         
-        dispatch( resetCreator() )
-    }
+        dispatch( resetCreator() );
+    };
+
     const handleBack = () => {
-        dispatch( backToCreator() )
-    }
+        dispatch( backToCreator() );
+    };
+
     return(
         <div className="afterCreator">
             <div className="conteinerAfter">
-
                 <div className="messageAfter">
                 {
                     created ? 
@@ -29,31 +31,34 @@ const AfterCreator = () => {
                     <h1>Ese nombre Ya existe, el Pokemon no fue creado</h1>
                 }
                 </div>
-                
                 <div className="conteinerBtnsAfter">
                     <Link className="LinkbtnAfter" to = "/home">
                         <button
                         onClick={ handleMainPage }
-                        className="btnAfter"> Main Page</button>
+                        className="btnAfter"
+                        >
+                            Main Page
+                        </button>
                     </Link>
-                    
+                    {
+                        created ? 
                     <button
                     className="btnAfter"
                     onClick={ handleClick }
-                    >Crear otro Pokemon</button>
-
-                    {!created ? 
-                    <button
-                    className="btnAfter"
-                    onClick={ handleBack }
-                    >Volover a editar</button> :
-                    null
+                    >
+                        Crear otro Pokemon
+                    </button> :
+                        <button
+                        className="btnAfter"
+                        onClick={ handleBack }
+                        >
+                            Volver a editar
+                        </button> 
                     }
                 </div>
-            
             </div>
         </div>
     )
-}
+};
 
 export default AfterCreator;
