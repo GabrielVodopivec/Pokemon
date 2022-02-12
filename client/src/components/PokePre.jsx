@@ -1,7 +1,10 @@
 import React from "react";
+/* import { useEffect } from "react"; */
 
 const PokePre = ( props ) => {
-
+    /* useEffect(()=>{
+        console.log(props)
+    }) */
     return (
         <div className="conteinerPrev">
             <div className="conteinerNamePrev">
@@ -39,7 +42,7 @@ const PokePre = ( props ) => {
                     </div>
                 </div>
                 <div className="conteinerTypesPrev">
-                    {props.poke.pokeTypes.map( (el, index) => {
+                    {props.poke.pokeTypes?.map( (el, index) => {
                         return (
                             <div
                             key={ index } 
@@ -50,7 +53,7 @@ const PokePre = ( props ) => {
                 </div>
             </div>
             <div className="conteinerImgPrev">    
-                <img className="ImgPrev" src={ props.poke.img } alt="Img not found" />
+                <img className="ImgPrev" src={ props.poke.img || "pikachu-clipart-png-removebg-preview.png" }  alt="Not found" />
             </div>
         </div>
     )

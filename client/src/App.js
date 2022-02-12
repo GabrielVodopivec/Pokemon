@@ -5,6 +5,7 @@ import LandingPage from './components/Landing';
 import Home from './components/Home';
 import PokeDetail from './components/PokeDetail';
 import Form from './components/Form';
+import Editor from './components/Editor';
 /* import NavBar from './components/NavBar'; */
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
           <Route path = '/home' element = { <Home /> } />
           <Route path = '/detail/:id' element = { <PokeDetail /> } />
           <Route path = '/pokecreator' element = { <Form /> } />
+          <Route path = '/editor/:id' element = { <Editor />} />
         </Routes>  
       </div>
     </BrowserRouter>

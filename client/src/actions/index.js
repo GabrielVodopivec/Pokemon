@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { BACK_TO_CREATOR, BULK_CREATE, CHECK_BULK, CLEAN_CACHE, DELETE_POKEMON, EDITING_AGAIN, ERROR_SEARCH_BY_ID, ERROR_SEARCH_BY_NAME, EXISTENT_POKEMON, FILTER_BY_ORIGIN, FILTER_BY_TYPE, GET_ALL_POKEMONS, GET_TYPES, LOADING, ORDER_ALPHABETICALLY, ORDER_BY_ATTACK, POKEMON_CREATED, RESET_CREATED, SEARCH_BY_ID, SEARCH_BY_NAME, SELECT_PAGE, SET_DETAIL } from '../actionTypes';
+import { BACK_TO_CREATOR, BULK_CREATE, CHECK_BULK, CLEAN_CACHE, DELETE_POKEMON, EDITING_AGAIN, ERROR_SEARCH_BY_ID, ERROR_SEARCH_BY_NAME, EXISTENT_POKEMON, FAIL_UPDATE, FILTER_BY_ORIGIN, FILTER_BY_TYPE, GET_ALL_POKEMONS, GET_TYPES, LOADING, ORDER_ALPHABETICALLY, ORDER_BY_ATTACK, POKEMON_CREATED, RESET_CREATED, RESET_UPDATING, SEARCH_BY_ID, SEARCH_BY_NAME, SELECT_PAGE, SET_DETAIL, UPDATE_POKEMON } from '../actionTypes';
 
 export const getAllPokemons = () => {
     return dispatch => {
@@ -57,15 +57,16 @@ export const searchById = ( id ) => {
         })
         axios(`http://localhost:3001/detail/${id}`)
         .then(( pokemon ) => {
-            return dispatch({
+            dispatch({
                 type: SEARCH_BY_ID,
                 payload: pokemon.data
             })
         })
         .catch(( error ) => {
-            return dispatch({
+            console.log(error.response)
+            dispatch({
                 type: ERROR_SEARCH_BY_ID,
-                payload: error.response.data
+                payload: ('invalid ID')
             })
         })
     }
@@ -223,5 +224,58 @@ export const bulkCreate = () => {
 export const checkBulk = () => {
     return {
         type: CHECK_BULK
+    }
+}
+
+export const updatePokemon = ({
+    id,
+    name,
+    img,
+    hp,
+    attack,
+    defense,
+    velocidad,
+    height,
+    weight,
+    pokeTypes,
+    bulked
+}) => {
+    return (dispatch) => {
+        dispatch({
+            type: LOADING
+        })
+        axios.put(`http://localhost:3001/pokemons/update/${id}`, {
+            name,
+            img,
+            hp,
+            attack,
+            defense,
+            velocidad,
+            height,
+            weight,
+            pokeTypes,
+            bulked
+        })
+        .then(( response ) => {
+            console.log(response.data.up)
+            return dispatch({
+                type: UPDATE_POKEMON,
+                payload: response.data
+            })
+        })
+        .catch(( error ) => {
+            console.log('llega hasta aca?')
+            console.log ( error.response.data )
+            dispatch({
+                type: FAIL_UPDATE,
+                payload: error.response.data
+            })
+        })
+    }
+}
+
+export const resetUpdating = () => {
+    return {
+        type: RESET_UPDATING
     }
 }

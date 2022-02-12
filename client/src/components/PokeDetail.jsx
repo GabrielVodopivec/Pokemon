@@ -37,6 +37,10 @@ const PokeDetail = () =>{
         dispatch( deletePokemon( id ) )
     }
 
+    const handleEdit = () => {
+        
+    }
+
     return (
         <>
         {
@@ -70,9 +74,12 @@ const PokeDetail = () =>{
                                         pokeDetail.fromdb ?
                                         <>
                                             <div className="conteinerBtnEditDetail">
-                                                <button
-                                                className="EditBtnDetail"
-                                                >Edit</button>
+                                                <Link to = {`/editor/${id}`} >
+                                                    <button
+                                                    onClick={ handleEdit }
+                                                    className="EditBtnDetail"
+                                                    >Edit</button>
+                                                </Link>
                                             </div>
                                             <div className="conteinerBtnsDeleteDetail">
                                                 <div className="btnsDeleteDetail">

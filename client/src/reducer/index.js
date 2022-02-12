@@ -1,4 +1,4 @@
-import { BACK_TO_CREATOR, BULK_CREATE, CHECK_BULK, CLEAN_CACHE, DELETE_POKEMON, EDITING_AGAIN, ERROR_SEARCH_BY_ID, ERROR_SEARCH_BY_NAME, EXISTENT_POKEMON, FILTER_BY_ORIGIN, FILTER_BY_TYPE, GET_ALL_POKEMONS, GET_TYPES, LOADING, ORDER_ALPHABETICALLY, ORDER_BY_ATTACK, POKEMON_CREATED, RESET_CREATED, SEARCH_BY_ID, SEARCH_BY_NAME, SELECT_PAGE, SET_DETAIL } from "../actionTypes";
+import { BACK_TO_CREATOR, BULK_CREATE, CHECK_BULK, CLEAN_CACHE, DELETE_POKEMON, EDITING_AGAIN, ERROR_SEARCH_BY_ID, ERROR_SEARCH_BY_NAME, EXISTENT_POKEMON, FAIL_UPDATE, FILTER_BY_ORIGIN, FILTER_BY_TYPE, GET_ALL_POKEMONS, GET_TYPES, LOADING, ORDER_ALPHABETICALLY, ORDER_BY_ATTACK, POKEMON_CREATED, RESET_CREATED, RESET_UPDATING, SEARCH_BY_ID, SEARCH_BY_NAME, SELECT_PAGE, SET_DETAIL, UPDATE_POKEMON } from "../actionTypes";
 
 const initialState = {
     allPokemons: [],
@@ -10,11 +10,14 @@ const initialState = {
     pokeCache:{},
     back: false,
     createAnother: false,
+    updating: true,
     creating: true,
     created: false,
+    updated:false,
     deleted: false,
     loading: false,
     needBulk: false,
+    messageUpdate: "",
     errorSearchByName: "",
     errorSearchById: "",
     page: 1,
@@ -279,6 +282,29 @@ const rootReducer = ( state = initialState, action ) => {
                     needBulk: false
                 }
             }    
+        case UPDATE_POKEMON: 
+            return {
+                ...state,
+                loading:false,
+                updating:false,
+                updated:true,
+                pokeDetail:action.payload.up,
+                messageUpdate: action.payload.data
+            }
+        case RESET_UPDATING:
+            return {
+                ...state,
+                updating: true,
+                updated: false,
+                
+            }
+        case FAIL_UPDATE:
+            return {
+                ...state,
+                loading:false,
+                updating:false,
+                messageUpdate: action.payload.data
+            }
         default: return state
     }
 }

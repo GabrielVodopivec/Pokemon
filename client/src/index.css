@@ -104,6 +104,7 @@ body::-webkit-scrollbar {
   border-bottom-color: hsla(33, 100%, 53%, 1);
   border-right-color: transparent;
   border-bottom-left-radius: 100px;
+  border-top-right-radius: 200px;
   position: fixed;
   background: hsla(33, 100%, 53%, 1);
 
@@ -116,7 +117,7 @@ background: -webkit-linear-gradient(90deg, hsla(33, 100%, 53%, 1) 0%, hsla(37, 1
 filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#FF930F", endColorstr="#FFF5E5", GradientType=1 );
   
   width: 400px;
-  height: 910px;
+  height: 100%
 }
 
 .interiorNavbar {
@@ -272,8 +273,15 @@ filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#FF930F", en
   font-weight: 400;
   
 }
-
+.test {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 500px;
+}
 .btnPageFocus {
+  cursor: pointer;
   margin-left: 2px;
   margin-right: 2px;
   border-radius: 10px;
@@ -677,7 +685,19 @@ background: -webkit-linear-gradient(90deg, hsla(33, 100%, 53%, 1) 0%, hsla(37, 1
 filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#FF930F", endColorstr="#FFF5E5", GradientType=1 );
   z-index: 1;
 }
+.fantasma{
 
+  z-index: 20;
+  width: 1510px;
+  height: 100%;
+  transition: ease;
+  background: linear-gradient(to top, black 20%, transparent 100%);
+  
+  border-radius: 50px;
+}
+.form {
+  z-index: -10;
+}
 .loadingPage {
   height: 700px;
   width: 100%;
@@ -1258,7 +1278,7 @@ input[type="checkbox"]+ label {
   border-color: black;
   border-radius: 10px;
   border-width: 1px; */
-
+  /* border-radius: 999px; */
   height: 300px;
   width: 300px;
 }
@@ -1375,15 +1395,15 @@ width: 20px;
 }
 
 .afterCreator{
-  
+  z-index: 1000;
   height: 700px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 .conteinerAfter{
-  border-style: solid;
-  border-color: black;
+  /* border-style: solid;
+  border-color: black; */
   border-radius: 50px;
   border-width: 1px;
   background: hsla(33, 100%, 53%, 1);

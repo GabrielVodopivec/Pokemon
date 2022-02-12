@@ -77,8 +77,8 @@ export default function PokeCreator () {
         switch ( event.target.name ) {
             case "pokeName":
                 event.preventDefault();
-                const reg = /[^a-zA-Z\s.]/;
-                // Busco cualquier cosa que no sean letras, espacios o puntos ( Caracteres permitidos )
+                const reg = /[^a-zA-Z\s\-.]/;
+                // Busco cualquier cosa que no sean letras, espacios, puntos o - ( Caracteres permitidos )
                 reg.test( event.target.value ) ?
                 setErrorType({
                     ...errorType,
@@ -244,11 +244,10 @@ export default function PokeCreator () {
     }
     return (
         <>
-        
-        
             <form 
             className="form"
             onSubmit={ handleSubmit }
+            disabled = {!creating}
             >
             <div className="pokeCreator">
                 <div className="firstColumn">
@@ -390,9 +389,7 @@ export default function PokeCreator () {
                             }
                         </ul>
                     </div>
-                    <div>
-                        <p>create button will appear when the necessary information is loaded correctly</p>
-                    </div>
+                    
                     <div className="conteinerBtnsCreator">
                         <div className="conteinerBtnMainCreator">
                             <Link to = '/home'>
@@ -412,7 +409,8 @@ export default function PokeCreator () {
                             !errorType.height &&
                             !errorType.weight &&
                             pokemon.name ?
-                            <input className="submitCreator" type="submit" value="Create!"/> : null
+                            <input className="submitCreator" type="submit" value="Create!"/> : 
+                            <input className="submitCreator" type="submit" value="Create!" disabled/>
                         }
                         </div>
                     </div>
@@ -429,13 +427,15 @@ export default function PokeCreator () {
                                 />
                             </div> :
                             <div className="thirdColumn">
+                                <div className="fantasma">
+
                             <AfterCreator />
+                                </div>
                             </div>
                         }
                     </> :
                     <div className="thirdColumn">
-
-                    <Loading />
+                        <Loading />
                     </div>
                 }
                 <div className="secondColumn">
@@ -476,8 +476,6 @@ export default function PokeCreator () {
                 </div>
             </div>
             </form> 
-        
-        
         </>
     )
 }

@@ -24,3 +24,8 @@ export const CLEAN_CACHE = "CLEAN_CACHE";
 export const DELETE_POKEMON = "DELETE_POKEMON";
 export const BULK_CREATE = "BULK_CREATE";
 export const CHECK_BULK = "CHECK_BULK";
+
+
+export const UPDATE_POKEMON = "UPDATE_POKEMON";
+export const RESET_UPDATING = "RESET_UPDATING";
+export const FAIL_UPDATE = "FAIL_UPDATE";

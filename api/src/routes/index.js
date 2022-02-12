@@ -291,4 +291,82 @@ router.post('/pokeomons/bulkCreate', async ( req, res ) => {
     /* allPokemons = getPokemons(); */
 })
 
+router.put('/pokemons/update/:id', async ( req, res ) => {
+    const {
+        name,
+        img,
+        hp,
+        attack,
+        defense,
+        velocidad,
+        height,
+        weight,
+        pokeTypes,
+        bulked
+    } = req.body;
+
+    const { id } = req.params;
+
+    try {
+        try {
+            const infoApi = await axios(`https://pokeapi.co/api/v2/pokemon/${name.toLowerCase().trim()}/`)
+            res.status(400).send({data:`EL nombre ${infoApi.data.name} ya existe, Pokemon no actualizado`})
+
+        } catch {
+            const pokeInDb = await pokemon.findOne({
+                where: {name: {
+                    [Op.iLike]: `${ name.trim() }`
+                }}
+            });
+
+            if( !pokeInDb || pokeInDb.id === id ) {
+                await pokemon.update({
+                    name,
+                    img,
+                    hp,
+                    attack,
+                    defense,
+                    velocidad,
+                    height,
+                    weight,
+                    bulked
+                },{
+                    where: { id }
+                });
+                const parcialUpdate = await pokemon.findOne({
+                    where: { id }
+                })
+                const typesDb = await types.findAll({
+                    where: {
+                        name: {
+                            [Op.in]: pokeTypes
+                        }
+                    }
+                });
+    
+                await parcialUpdate.setTypes( typesDb );
+                const updated = await pokemon.findOne({
+                    where: { id },
+                    include: [{
+                        model: types,
+                        attributes:[ 'name' ],
+                        through: {
+                            attributes:[]
+                        }
+                    }]
+                })
+                res.status( 200 ).send({data:'Pokemon Updated', up: updated})
+            } else {
+                res.status( 400 ).send({data:`El nombre ${pokeInDb.name} ya existe, Pokemon no actualizado`})
+            }
+        }
+
+
+
+    } catch ( error ) {
+        console.log( error )
+    }
+    allPokemons = getPokemons();
+})
+
 module.exports = router;
