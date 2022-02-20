@@ -13,8 +13,8 @@ const FilterByOrigin = () => {
         <div className="conteinerFilterByOriginNav">
             <select className="selectOrigin" defaultValue={"Origin"} onChange={ handleChange }>
                 <option value="Origin" hidden> Origin </option>
-                <option value="db"> Data Base </option>
                 <option value="api"> Api </option>
+                <option value="db"> Data Base </option>
             </select>
         </div>
     )

@@ -22,24 +22,24 @@ export default function PokeCreator () {
     const [ pokemon, setPokemon ] = useState({
         name: "",
         img: "",
-        hp: 0,
-        attack: 0,
-        defense: 0,
-        velocidad: 0,
-        height: 0,
-        weight: 0,
+        hp: "",
+        attack: "",
+        defense: "",
+        velocidad: "",
+        height: "",
+        weight: "",
         pokeTypes: [],
         bulked:false
     })
 
     const [ errorType, setErrorType ] = useState({
-        name: "",
-        attack: "",
-        defense: "",
-        hp: "",
-        velocidad: "",
-        height: "",
-        weight: ""
+        name: "Pokemon`s name is required",
+        height: "Height must be a number between 0 - 1000",
+        weight: "Weight must be a number between 0 - 1000",
+        attack: "Attack must be a number between 0 - 200",
+        defense: "Defense must be a number between 0 - 200",
+        hp: "Hp must be a number between 0 - 200",
+        velocidad: "Speed must be a number between 0 - 200",
     })
 
     const resetCheckbox = () => {
@@ -56,33 +56,50 @@ export default function PokeCreator () {
         
         if (created) resetCheckbox();
 
-        back && setPokemon({
-            name: pokeCache.name,
-            img: pokeCache.img,
-            hp: pokeCache.hp,
-            attack: pokeCache.attack,
-            defense: pokeCache.defense,
-            velocidad: pokeCache.velocidad,
-            height: pokeCache.height,
-            weight: pokeCache.weight,
-            pokeTypes: pokeCache.pokeTypes,
-            bulked:false
-        })
+        if( back ) {
+            setPokemon({
+                name: pokeCache.name,
+                img: pokeCache.img,
+                hp: pokeCache.hp,
+                attack: pokeCache.attack,
+                defense: pokeCache.defense,
+                velocidad: pokeCache.velocidad,
+                height: pokeCache.height,
+                weight: pokeCache.weight,
+                pokeTypes: pokeCache.pokeTypes,
+                bulked:false
+            })
+            setErrorType({
+                name: "",
+                attack: "",
+                defense: "",
+                hp: "",
+                velocidad: "",
+                height: "",
+                weight: ""
+            })
+        }
         
         dispatch( editingAgain())
     }, [dispatch, created, back, pokeCache])
 
     const inputValidator = ( event ) =>{
-        
+        const regExpNum = /^-[0-9]/;
+        const regExpName = /[^a-zA-Z\s\-().]/;
+        // Busco cualquier cosa que no sean letras, espacios, puntos o - ( Caracteres permitidos )
         switch ( event.target.name ) {
+
             case "pokeName":
                 event.preventDefault();
-                const reg = /[^a-zA-Z\s\-.]/;
-                // Busco cualquier cosa que no sean letras, espacios, puntos o - ( Caracteres permitidos )
-                reg.test( event.target.value ) ?
+                !event.target.value.length ?
                 setErrorType({
                     ...errorType,
-                    name: "Special Characters are not allowed."
+                    name: "The pokemon must have a name"
+                }) :
+                regExpName.test( event.target.value ) ?
+                setErrorType({
+                    ...errorType,
+                    name: "The name can not contain Special Characters."
                 }) :
                 setErrorType({
                     ...errorType,
@@ -127,10 +144,16 @@ export default function PokeCreator () {
                 })
                 break;
             case "attack":
-                ( (event.target.value) > 200 ) ?
+                
+                (
+                    regExpNum.test( event.target.value ) ||
+                    event.target.value.length === 0 || 
+                    (event.target.value) > 200 || 
+                    ((event.target.value) < 0) 
+                ) ?
                 setErrorType({
                     ...errorType,
-                    attack: " Max Attack value is 200"
+                    attack: "Attack must be a number between 0 - 200"
                 }) :
                 setErrorType({
                     ...errorType,
@@ -142,10 +165,15 @@ export default function PokeCreator () {
                 })
                 break;
             case "defense":
-                ( (event.target.value) > 200 ) ?
+                (
+                    regExpNum.test( event.target.value ) ||
+                    event.target.value.length === 0 || 
+                    (event.target.value) > 200 || 
+                    ((event.target.value) < 0) 
+                ) ?
                 setErrorType({
                     ...errorType,
-                    defense: " Max Defense value is 200"
+                    defense: "Defense must be a number between 0 - 200"
                 }) :
                 setErrorType({
                     ...errorType,
@@ -157,10 +185,15 @@ export default function PokeCreator () {
                 })
                 break;
             case "hp":
-                ( (event.target.value) > 200 ) ?
+                (
+                    regExpNum.test( event.target.value ) ||
+                    event.target.value.length === 0 || 
+                    (event.target.value) > 200 || 
+                    ((event.target.value) < 0) 
+                ) ?
                 setErrorType({
                     ...errorType,
-                    hp: " Max Hp value is 200"
+                    hp: "Hp must be a number between 0 - 200"
                 }) :
                 setErrorType({
                     ...errorType,
@@ -172,10 +205,15 @@ export default function PokeCreator () {
                 })
                 break;
             case "velocidad":
-                ( (event.target.value) > 200 ) ?
+                (
+                    regExpNum.test( event.target.value ) ||
+                    event.target.value.length === 0 || 
+                    (event.target.value) > 200 || 
+                    ((event.target.value) < 0) 
+                ) ?
                 setErrorType({
                     ...errorType,
-                    velocidad: " Max Speed value is 200"
+                    velocidad: " Speed must be a number between 0 - 200"
                 }) :
                 setErrorType({
                     ...errorType,
@@ -187,10 +225,15 @@ export default function PokeCreator () {
                 })
                 break;
             case "height":
-                ( (event.target.value) > 200 ) ?
+                (
+                    regExpNum.test( event.target.value ) ||
+                    event.target.value.length === 0 || 
+                    (event.target.value) > 1000 || 
+                    ((event.target.value) < 0) 
+                ) ?
                 setErrorType({
                     ...errorType,
-                    height: " Max Height value is 200"
+                    height: "Height must be a number between 0 - 1000"
                 }) :
                 setErrorType({
                     ...errorType,
@@ -202,10 +245,15 @@ export default function PokeCreator () {
                 })
                 break;
             case "weight":
-                ( (event.target.value) > 200 ) ?
+                (
+                    regExpNum.test( event.target.value ) ||
+                    event.target.value.length === 0 || 
+                    (event.target.value) > 1000 || 
+                    ((event.target.value) < 0) 
+                ) ?
                 setErrorType({
                     ...errorType,
-                    weight: " Max Weight value is 200"
+                    weight: "Weight must be a number between 0 - 1000"
                 }) :
                 setErrorType({
                     ...errorType,
@@ -227,15 +275,16 @@ export default function PokeCreator () {
         setPokemon({
             name: "",
             img: "",
-            hp: 0,
-            attack: 0,
-            defense: 0,
-            velocidad: 0,
-            height: 0,
-            weight: 0,
+            hp: "",
+            attack: "",
+            defense: "",
+            velocidad: "",
+            height: "",
+            weight: "",
             pokeTypes: [],
             bulked:false
         })
+        
        
     }
     
@@ -247,7 +296,6 @@ export default function PokeCreator () {
             <form 
             className="form"
             onSubmit={ handleSubmit }
-            disabled = {!creating}
             >
             <div className="pokeCreator">
                 <div className="firstColumn">
@@ -260,7 +308,7 @@ export default function PokeCreator () {
                         className="inputNameCreator"
                         type="text"
                         name="pokeName"
-                        placeholder="Nombre del pokemon"
+                        placeholder="Pokemon's name"
                         value={ pokemon.name }
                         onChange={ inputValidator }
                         />
@@ -378,18 +426,31 @@ export default function PokeCreator () {
                         </div>
                     </div>
                     <div className="conteinerProblemsCreator">
-                        <h2 className="titleProblemsCreator">Problems</h2>
+                        <h2 className="titleProblemsCreator">Problems List</h2>
                         <ul className="problemsCreator">
                             {
                                 Object.values( errorType ).map(( errorMessage, index ) => {
                                     return (
-                                        <li key={ index }> {errorMessage }</li>
+                                        <li className="itemError" key={ index }> {errorMessage }</li>
                                     )
                                 })
                             }
                         </ul>
                     </div>
-                    
+                    <div className="probelmslistmessageContainer">
+                            {
+                                !errorType.name &&
+                                !errorType.attack &&
+                                !errorType.defense &&
+                                !errorType.hp &&
+                                !errorType.velocidad &&
+                                !errorType.height &&
+                                !errorType.weight &&
+                                pokemon.name ?    
+                                null :
+                                <p className="probelmslistmessage">* Problems List must be empty to activate the create button</p>
+                            }
+                    </div>
                     <div className="conteinerBtnsCreator">
                         <div className="conteinerBtnMainCreator">
                             <Link to = '/home'>
@@ -439,7 +500,7 @@ export default function PokeCreator () {
                     </div>
                 }
                 <div className="secondColumn">
-                        <h2>Types</h2>
+                        <h2>{`Types ( Optional )`}</h2>
                     <div className="typesConteiner">
                         {
                             types.map(( el, index ) => {
@@ -453,12 +514,12 @@ export default function PokeCreator () {
                                         type="checkbox"
                                         id={ el.name }
                                         name="type"
-                                        /* defaultChecked = {
-                                           pokeCache.pokeTypes ?
-                                           pokeCache.pokeTypes.some( ele => ele === el.name ) :
-                                           null
+                                        defaultChecked = {
+                                           
+                                           pokeCache.pokeTypes?.some( ele => ele === el.name ) 
+                                           
                                         }
-                                         */
+                                        
                                         value={ el.name }
                                         onChange={ inputValidator } 
                                         />

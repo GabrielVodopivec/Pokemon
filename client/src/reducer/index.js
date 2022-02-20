@@ -1,4 +1,29 @@
-import { BACK_TO_CREATOR, BULK_CREATE, CHECK_BULK, CLEAN_CACHE, DELETE_POKEMON, EDITING_AGAIN, ERROR_SEARCH_BY_ID, ERROR_SEARCH_BY_NAME, EXISTENT_POKEMON, FAIL_UPDATE, FILTER_BY_ORIGIN, FILTER_BY_TYPE, GET_ALL_POKEMONS, GET_TYPES, LOADING, ORDER_ALPHABETICALLY, ORDER_BY_ATTACK, POKEMON_CREATED, RESET_CREATED, RESET_UPDATING, SEARCH_BY_ID, SEARCH_BY_NAME, SELECT_PAGE, SET_DETAIL, UPDATE_POKEMON } from "../actionTypes";
+import { 
+    BACK_TO_CREATOR, 
+    BULK_CREATE, 
+    CHECK_BULK, 
+    CLEAN_CACHE, 
+    DELETE_POKEMON, 
+    EDITING_AGAIN, 
+    ERROR_CREATED, 
+    ERROR_SEARCH_BY_ID, 
+    ERROR_SEARCH_BY_NAME, 
+    EXISTENT_POKEMON, 
+    FAIL_UPDATE, 
+    FILTER_BY_ORIGIN, 
+    FILTER_BY_TYPE, 
+    GET_ALL_POKEMONS, 
+    GET_TYPES, LOADING, 
+    ORDER_ALPHABETICALLY,
+    ORDER_BY_ATTACK, 
+    POKEMON_CREATED, 
+    RESET_CREATED, 
+    RESET_UPDATING, 
+    SEARCH_BY_ID, 
+    SEARCH_BY_NAME, 
+    SELECT_PAGE, 
+    SET_DETAIL,
+    UPDATE_POKEMON } from "../actionTypes";
 
 const initialState = {
     allPokemons: [],
@@ -13,16 +38,18 @@ const initialState = {
     updating: true,
     creating: true,
     created: false,
+    errorCreated:"",
     updated:false,
     deleted: false,
     loading: false,
     needBulk: false,
+    activeFilter: "",
     messageUpdate: "",
     errorSearchByName: "",
     errorSearchById: "",
     page: 1,
     pokemonsPerPage: 12
-}
+};
 
 const rootReducer = ( state = initialState, action ) => {
     switch( action.type ) {
@@ -35,6 +62,14 @@ const rootReducer = ( state = initialState, action ) => {
             pokeCache:{},
             createdPokemon: action.payload.pokemonCreated,
             created: action.payload.wasCreated
+            }
+        case ERROR_CREATED:
+            return {
+                ...state,
+                creating:false,
+                created:false,
+                loading:false,
+                errorCreated: action.payload
             }
         case DELETE_POKEMON:
             return {
@@ -58,6 +93,7 @@ const rootReducer = ( state = initialState, action ) => {
                 ...state,
                 back:true,
                 creating:true,
+                errorCreated:""
             }
         case EDITING_AGAIN:
             return {
@@ -67,6 +103,7 @@ const rootReducer = ( state = initialState, action ) => {
         case RESET_CREATED:
             return {
                 ...state,
+                activeFilter: "",
                 pokeCache:{},
                 created:false,
                 createAnother: true,
@@ -85,6 +122,7 @@ const rootReducer = ( state = initialState, action ) => {
                 loading: false,
                 inDetail:true,
                 deleted: false,
+                activeFilter: "",
                 errorSearchByName: "",
                 errorSearchById: "",
                 page: 1
@@ -92,11 +130,13 @@ const rootReducer = ( state = initialState, action ) => {
         case GET_TYPES:
             return {
                 ...state,
+                loading:false,
                 types: action.payload
             }    
         case SEARCH_BY_NAME:
             return {
                 ...state,
+                activeFilter: "",
                 errorSearchByName:"",
                 loading: false,
                 pokemons: action.payload,
@@ -110,7 +150,7 @@ const rootReducer = ( state = initialState, action ) => {
         case LOADING:
             return {
                 ...state,
-                /* pokeCache:action.payload, */
+                
                 loading: true
             }
         case ERROR_SEARCH_BY_NAME:
@@ -145,6 +185,7 @@ const rootReducer = ( state = initialState, action ) => {
             if ( action.payload === "All" ) { 
                 return {
                     ...state,
+                    activeFilter: "",
                     errorSearchByName: "",
                     pokemons:toFilter,
                     page: 1
@@ -153,13 +194,14 @@ const rootReducer = ( state = initialState, action ) => {
                 return {
                     ...state,
                     errorSearchByName: "",
+                    activeFilter: action.payload,
                     pokemons: filtered( toFilter ),
                     page: 1
                 }
             } else {
                 return {
                     ...state,
-                    errorSearchByName:"No hay pokes de ese tipo"
+                    errorSearchByName: `There's not ${action.payload.toUpperCase()} type pokemons`
                 }
             }
         case FILTER_BY_ORIGIN:
@@ -173,6 +215,7 @@ const rootReducer = ( state = initialState, action ) => {
                     return {
                         ...state,
                         page: 1,
+                        activeFilter: "",
                         errorSearchByName: "",
                         pokemons: fromDb
                     }
@@ -180,7 +223,8 @@ const rootReducer = ( state = initialState, action ) => {
                     return {
                         ...state,
                         page: 1,
-                        errorSearchByName: "No hay pokes de base de datos"
+                        activeFilter: "",
+                        errorSearchByName: "There's no pokemons in Data Base"
                     }
                 }
                 
@@ -191,6 +235,7 @@ const rootReducer = ( state = initialState, action ) => {
                 return {
                     ...state,
                     page: 1,
+                    activeFilter: "",
                     errorSearchByName:"",
                     pokemons: fromApi
                 }
@@ -307,6 +352,6 @@ const rootReducer = ( state = initialState, action ) => {
             }
         default: return state
     }
-}
+};
 
 export default rootReducer;

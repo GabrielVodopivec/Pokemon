@@ -6,13 +6,11 @@ import Home from './components/Home';
 import PokeDetail from './components/PokeDetail';
 import Form from './components/Form';
 import Editor from './components/Editor';
-/* import NavBar from './components/NavBar'; */
 
 function App() {
   return (
     <BrowserRouter>
       <div className="App">
-        {/* <NavBar /> */}
         <Routes>
           <Route exact path = '/' element = { <LandingPage /> } />
           <Route path = '/home' element = { <Home /> } />

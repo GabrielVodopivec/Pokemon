@@ -5,15 +5,17 @@ import { Link } from "react-router-dom";
 import { backToCreator, getAllPokemons, resetCreator } from "../actions";
 
 const AfterCreator = () => {
+
     const dispatch = useDispatch();
     const created = useSelector( state => state.created );
+    const errorCreated = useSelector( state => state.errorCreated );
+    const pokeCache = useSelector( state => state.pokeCache )
 
     const handleMainPage = () => {
         dispatch( getAllPokemons() );
     };
 
-    const handleClick = ( event ) => {
-        
+    const handleClick = () => {
         dispatch( resetCreator() );
     };
 
@@ -27,8 +29,14 @@ const AfterCreator = () => {
                 <div className="messageAfter">
                 {
                     created ? 
-                    <h1>Su Pokemon fue creado con éxito!</h1> :
-                    <h1>Ese nombre Ya existe, el Pokemon no fue creado</h1>
+                    <h1>Your Pokemon was created successfully!</h1> :
+                    <h1 className="messageAfterCreator">
+                        {
+                            errorCreated.length ? 
+                            errorCreated : 
+                            `The name ${pokeCache.name.replace(pokeCache.name[0], pokeCache.name[0].toUpperCase() )} alredy exists, Your pokemon was not created...`
+                        }
+                    </h1>
                 }
                 </div>
                 <div className="conteinerBtnsAfter">
@@ -42,17 +50,17 @@ const AfterCreator = () => {
                     </Link>
                     {
                         created ? 
-                    <button
-                    className="btnAfter"
-                    onClick={ handleClick }
-                    >
-                        Crear otro Pokemon
-                    </button> :
+                        <button
+                        className="btnAfter"
+                        onClick={ handleClick }
+                        >
+                            Create Another Pokemon
+                        </button> :
                         <button
                         className="btnAfter"
                         onClick={ handleBack }
                         >
-                            Volver a editar
+                            Back to edit
                         </button> 
                     }
                 </div>

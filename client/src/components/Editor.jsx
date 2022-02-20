@@ -1,30 +1,35 @@
-import React from "react";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { searchById } from "../actions";
+
+import { getTypes, searchById } from "../actions";
 
 import Loading from "./Loading";
 import PokeEditor from "./PokeEditor";
 
 const Editor = () => {
+
     const { id } = useParams()
     const dispatch = useDispatch()
-    const loading = useSelector ( state => state.loading )
     const pokeDetail = useSelector( state => state.pokeDetail );
+    const types = useSelector(state => state.types)
     
     useEffect(() => {
-        !pokeDetail.name && dispatch( searchById( id ))
-    },[ dispatch, id, pokeDetail ])
+        if ( !types.length ) {
+            dispatch( getTypes() ) 
+            dispatch( searchById( id ))
+        }
+    },[ dispatch, id, types ]);
+
     return(
         <>
         {
-            !loading ? 
-            <PokeEditor /> :
-            <Loading /> 
+            !Object.values(pokeDetail).length ? 
+            <Loading /> :
+            <PokeEditor />
         }
         </>
     )
-}
+};
 
 export default Editor;

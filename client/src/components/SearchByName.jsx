@@ -5,12 +5,13 @@ import { useDispatch } from "react-redux";
 import { searchByName } from "../actions";
 
 export default function SearchByName () {
+
     const dispatch = useDispatch();
-    const [ name, setName ] = useState( "" )
+    const [ name, setName ] = useState( "" );
 
     const handleSubmit = ( event ) => {
         event.preventDefault();
-        name.length && dispatch( searchByName( name.toLowerCase() ) ); 
+        name.length && !isFinite(parseInt(name)) && dispatch( searchByName( name.toLowerCase() ) ); 
         setName( '' );   
     }
     

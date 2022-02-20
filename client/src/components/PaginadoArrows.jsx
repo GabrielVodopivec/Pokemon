@@ -14,19 +14,19 @@ export default function PaginadoArrows () {
     const quantityOfButtons = Math.ceil( pokemons.length/pokemonsPerPage);
 
     const handlePrev = () => {
-        let prev = parseInt( page ) - 1;
-        dispatch( selectPage( prev ) );
+        let prev = page - 1;
+        ( page !== 1 ) &&  dispatch( selectPage( prev ) );
     };
 
     const handleNext = () => {
-        let next = parseInt( page ) + 1;
-        dispatch( selectPage( next ));
+        let next = page + 1;
+        ( page !== quantityOfButtons ) && dispatch( selectPage( next ));
     }
     return (
         <div className="paginadoArrows" >
             <div className="paginadoArrowsBtnNav">
                 {
-                    (parseInt( page ) !== 1) ?
+                    ( page !== 1 ) ?
                     <div>
                         <button
                         className="btnPageArrow"
@@ -40,7 +40,7 @@ export default function PaginadoArrows () {
             </div>
             <div className="paginadoArrowsBtnNav">
                 {
-                    parseInt( page ) !== quantityOfButtons ?
+                    ( page !== quantityOfButtons ) ?
                     <div>
                         <button
                         className="btnPageArrow"

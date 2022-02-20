@@ -1,13 +1,15 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
 import { checkBulk, getAllPokemons } from "../actions";
+
 import Loading from "./Loading";
 import NavBar from "./NavBar";
 import PokeMessage from "./PokeMessage";
-
 import Pokemon from "./Pokemon";
 
 export default function Home () {
+
     const dispatch = useDispatch();
 
     const page = useSelector( state => state.page );
@@ -21,18 +23,16 @@ export default function Home () {
     const firstPokemon = lastPokemon - pokemonsPerPage;
     const pokemonsOnScreen = pokemons.slice( firstPokemon, lastPokemon );
 
-    
-
     useEffect(() => {
       !inDetail &&  dispatch( getAllPokemons() );
-      dispatch( checkBulk() )
-    }, [ dispatch, inDetail ])
+      dispatch( checkBulk() );
+    }, [ dispatch, inDetail ]);
 
     return (
         <div className="home">
             <div className="navbarConteiner" >
                 <div className="NavBar" >
-                <NavBar />
+                    <NavBar />
                 </div>
             </div>
             {
@@ -53,17 +53,13 @@ export default function Home () {
                         </div>
                         ) 
                     })  : 
-                    <div>
                     <PokeMessage
                     name={ errorSearchByName }
                     img={"https://i1.wp.com/www.sopitas.com/wp-content/uploads/2017/07/pikachu.gif"}
                     />  
-                    </div> 
                 } 
             </div> : <Loading />
             }
         </div>
     )
-}
-
-
+};

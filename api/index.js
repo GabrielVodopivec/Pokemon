@@ -22,7 +22,7 @@ const { conn } = require('./src/db.js');
 conn.sync({ force: true }).then(() => {
   const server = require('./src/app.js');
   server.listen(3001, () => {
-    console.log('%s listening at 3001'); // eslint-disable-line no-console
+    console.log('%s listening at 3001')// eslint-disable-line no-console
   });
 }).catch(( error ) => {
   console.log( error )

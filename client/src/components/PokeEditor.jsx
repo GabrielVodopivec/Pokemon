@@ -1,49 +1,18 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { getTypes, updatePokemon, searchById, getAllPokemons } from "../actions";
 
+import { getTypes, updatePokemon, searchById, getAllPokemons } from "../actions";
 
 import AfterEditor from "./AfterEditor";
 import Loading from "./Loading";
 import PokePre from "./PokePre";
 
 class PokeEditor extends Component {
-
     
-    constructor (props) {
+    constructor ( props ) {
         super ( props );
-        
         this.state = {
-            pokemon: {
-                id: 0,
-                name: "",
-                img:  "",
-                hp:  0,
-                attack:  0,
-                defense:  0,
-                velocidad:  0,
-                height:  0,
-                weight:  0,
-                pokeTypes: [],
-                bulked:false
-            },
-            
-            errorType: {
-                name: "",
-                attack: "",
-                defense: "",
-                hp: "",
-                velocidad: "",
-                height: "",
-                weight: ""
-            }
-        }
-    }
-    componentDidMount() {
-        this.props.getTypes()
-        this.setState({
-            ...this.state,
             pokemon: {
                 id: this.props.pokeDetail.id,
                 name: this.props.pokeDetail.name,
@@ -54,85 +23,225 @@ class PokeEditor extends Component {
                 velocidad:  this.props.pokeDetail.velocidad,
                 height:  this.props.pokeDetail.height,
                 weight:  this.props.pokeDetail.weight,
-                pokeTypes: this.props.pokeDetail.types?.map(el => el.name),
+                pokeTypes: this.props.pokeDetail.types.map(el => el.name),
                 bulked:false
+            },
+            errorType: {
+                name: "",
+                weight: "",
+                height: "",
+                attack: "",
+                defense: "",
+                hp: "",
+                velocidad: "",
             }
-
-        })
-
-    }
+        };
+    };
     
-    inputValidator = (event) => {
-        
+    inputValidator = ( event ) => {
+        const regExpNum = /^-[0-9]/;
+        const regExpName = /[^a-zA-Z\s\-().]/;
         switch ( event.target.name ) {
             case "pokeName":
-                return this.setState({
-                    ...this.state,
-                    pokemon: {
-                        ...this.state.pokemon,
-                        name: event.target.value
-                    }
-                })
+                
+                if ( !event.target.value.length ) {
+                    return this.setState({
+                        
+                        errorType: {
+                            ...this.state.errorType,
+                            name: "The pokemon must have a name"
+                        }
+                    })
+                } else if ( regExpName.test( event.target.value) ) {
+                    return this.setState({
+                        errorType: {
+                            ...this.state.errorType,
+                            name: "The pokemon's name can not contain special characters "
+                        }
+                    })
+                } else {
+                    return this.setState({
+                        pokemon: {
+                            ...this.state.pokemon,
+                            name: event.target.value
+                        },
+                        errorType: {
+                            ...this.state.errorType,
+                            name: ""
+                        }
+                    })
+                }
             case "pokeImg":
                 return this.setState({
-                    ...this.state,
                     pokemon: {
                         ...this.state.pokemon,
                         img: event.target.value
                     }
                 })
-            case "height":
+            case "height": 
+                if( !event.target.value.length || 
+                    regExpNum.test( event.target.value ) || 
+                    (event.target.value > 1000) || 
+                    (event.target.value < 0) ) {
+                    return this.setState({
+                        pokemon: {
+                            ...this.state.pokemon,
+                            height: ""
+                        },
+                        errorType: {
+                            ...this.state.errorType,
+                            height: "Height must be a number between 0 - 1000"
+                        }
+                    })
+                } else {
+                    return this.setState({   
+                        pokemon: {
+                            ...this.state.pokemon,
+                            height: event.target.value
+                        },
+                        errorType: {
+                            ...this.state.errorType,
+                            height: ""
+                        }
+                    })
+                }
+            case "weight": 
+            if( !event.target.value.length || 
+                regExpNum.test( event.target.value ) || 
+                (event.target.value > 1000) || 
+                (event.target.value < 0) ) {
                 return this.setState({
-                    ...this.state,
                     pokemon: {
                         ...this.state.pokemon,
-                        height: event.target.value
+                        weight: ""
+                    },
+                    errorType: {
+                        ...this.state.errorType,
+                        weight: "Weight must be a number between 0 - 1000"
                     }
                 })
-            case "weight": 
-                return this.setState({
-                    ...this.state,
+            } else {
+                return this.setState({   
                     pokemon: {
                         ...this.state.pokemon,
                         weight: event.target.value
+                    },
+                    errorType: {
+                        ...this.state.errorType,
+                        weight: ""
                     }
                 })
+                }
             case "attack":
-                return this.setState({
-                    ...this.state,
-                    pokemon: {
-                        ...this.state.pokemon,
-                        attack: event.target.value
-                    }
-                })
-            case "defense":
-                return this.setState({
-                    ...this.state,
-                    pokemon: {
-                        ...this.state.pokemon,
-                        defense: event.target.value
-                    }
-                })
-            case "hp":
-                return this.setState({
-                    ...this.state,
-                    pokemon: {
-                        ...this.state.pokemon,
-                        hp: event.target.value
-                    }
-                })
-            case "velocidad":
-                return this.setState({
-                    ...this.state,
-                    pokemon: {
-                        ...this.state.pokemon,
-                        velocidad: event.target.value
-                    }
-                })
-            case "type":
                 
-                console.log(event.target.value)
-                console.log(event.target.checked)
+                if( !event.target.value.length || 
+                    regExpNum.test( event.target.value ) || 
+                    (event.target.value > 200) || 
+                    (event.target.value < 0) ) {
+                    return this.setState({
+                        pokemon: {
+                            ...this.state.pokemon,
+                            attack: ""
+                        },
+                        errorType: {
+                            ...this.state.errorType,
+                            attack: "Attack must be a number between 0 - 200"
+                        }
+                    })
+                } else {
+                    return this.setState({   
+                        pokemon: {
+                            ...this.state.pokemon,
+                            attack: event.target.value
+                        },
+                        errorType: {
+                            ...this.state.errorType,
+                            attack: ""
+                        }
+                    })
+                }
+            case "defense":
+                if( !event.target.value.length || 
+                    regExpNum.test( event.target.value ) || 
+                    (event.target.value > 200) || 
+                    (event.target.value < 0) ) {
+                    return this.setState({
+                        pokemon: {
+                            ...this.state.pokemon,
+                            defense: ""
+                        },
+                        errorType: {
+                            ...this.state.errorType,
+                            defense: "Defense must be a number between 0 - 200"
+                        }
+                    })
+                } else {
+                    return this.setState({   
+                        pokemon: {
+                            ...this.state.pokemon,
+                            defense: event.target.value
+                        },
+                        errorType: {
+                            ...this.state.errorType,
+                            defense: ""
+                        }
+                    })
+                }
+            case "hp":
+                if( !event.target.value.length || 
+                    regExpNum.test( event.target.value ) || 
+                    (event.target.value > 200) || 
+                    (event.target.value < 0) ) {
+                    return this.setState({
+                        pokemon: {
+                            ...this.state.pokemon,
+                            hp: ""
+                        },
+                        errorType: {
+                            ...this.state.errorType,
+                            hp: "Hp must be a number between 0 - 200"
+                        }
+                    })
+                } else {
+                    return this.setState({   
+                        pokemon: {
+                            ...this.state.pokemon,
+                            hp: event.target.value
+                        },
+                        errorType: {
+                            ...this.state.errorType,
+                            hp: ""
+                        }
+                    })
+                }
+            case "velocidad":
+                if( !event.target.value.length || 
+                    regExpNum.test( event.target.value ) || 
+                    (event.target.value > 200) || 
+                    (event.target.value < 0) ) {
+                    return this.setState({
+                        pokemon: {
+                            ...this.state.pokemon,
+                            velocidad: ""
+                        },
+                        errorType: {
+                            ...this.state.errorType,
+                            velocidad: "Speed must be a number between 0 - 200"
+                        }
+                    })
+                } else {
+                    return this.setState({   
+                        pokemon: {
+                            ...this.state.pokemon,
+                            velocidad: event.target.value
+                        },
+                        errorType: {
+                            ...this.state.errorType,
+                            velocidad: ""
+                        }
+                    })
+                }
+            case "type":
                 return this.setState(() => {
                     if ( event.target.checked ) {
                         return {
@@ -171,26 +280,37 @@ class PokeEditor extends Component {
 
         }
 
-    }
+    };
+
+    problems () {
+        return !this.state.errorType.name &&
+        !this.state.errorType.attack &&
+        !this.state.errorType.defense &&
+        !this.state.errorType.hp &&
+        !this.state.errorType.velocidad &&
+        !this.state.errorType.height &&
+        !this.state.errorType.weight &&
+        this.state.pokemon.name ?
+        true:
+        false
+    };
 
     handleMainPage = () => {
         this.props.getAllPokemons()
-    }
+    };
 
-    
     handleSubmit = ( event ) => {
         event.preventDefault()
         const pokeToUpdate = this.state.pokemon;
         
         this.props.updatePokemon( pokeToUpdate )
-    }
+    };
+
     render() {
         
         return(
             <form 
-            /* className="form" */
             onSubmit={ this.handleSubmit }
-            
             >
             <div className="pokeCreator">
                 <div className="firstColumn">
@@ -203,7 +323,7 @@ class PokeEditor extends Component {
                         className="inputNameCreator"
                         type="text"
                         name="pokeName"
-                        placeholder="Nombre del pokemon"
+                        placeholder="Pokemon's name"
                         defaultValue={ this.props.pokeDetail.name }
                         onChange={ this.inputValidator }
                         />
@@ -223,7 +343,6 @@ class PokeEditor extends Component {
                         required 
                         onChange={ this.inputValidator }
                         />
-                        {/* https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/600.png */}
                     </div>
                     <div className="conteinerPhyStatsCreator">
                         <h2 className="titilePhyCreator">Physical stats</h2>
@@ -234,12 +353,8 @@ class PokeEditor extends Component {
                                 className="inputPhyCreator"
                                 type="number"
                                 name="height"
-                                /* step={5} */
                                 min="0" 
                                 defaultValue={ this.props.pokeDetail.height }
-                                
-                                /* defaultValue={pokeCache.height} */
-                                /* defaultValue={""} */
                                 onChange = { this.inputValidator }
                                 />
                             </div>
@@ -249,10 +364,7 @@ class PokeEditor extends Component {
                                 className="inputPhyCreator"
                                 type="number"
                                 name="weight"
-                                /* step={5} */
                                 min="0" 
-                                /* defaultValue={""} */
-                                /* defaultValue={pokeCache.weight} */
                                 defaultValue={ this.props.pokeDetail.weight }
                                 onChange = { this.inputValidator }
                                 />
@@ -268,9 +380,6 @@ class PokeEditor extends Component {
                                 className="inputBattleStatsCreator"
                                 type="number"
                                 name="attack"
-                                /* defaultValue={""} */
-                                /* defaultValue={pokeCache.attack} */
-                                /* step={5} */
                                 min="0" 
                                 defaultValue={ this.props.pokeDetail.attack }
                                 onChange = { this.inputValidator }
@@ -282,9 +391,6 @@ class PokeEditor extends Component {
                                 className="inputBattleStatsCreator" 
                                 type="number"
                                 name="defense"
-                                /* defaultValue={""} */
-                                /* defaultValue={pokeCache.defense} */
-                                /* step={5} */
                                 min="0" 
                                 defaultValue={ this.props.pokeDetail.defense }
                                 onChange = { this.inputValidator }
@@ -296,9 +402,6 @@ class PokeEditor extends Component {
                                 className="inputBattleStatsCreator"
                                 type="number"
                                 name="hp"
-                                /* defaultValue={""} */
-                                /* defaultValue={pokeCache.hp} */
-                                /* step={5} */
                                 min="0" 
                                 defaultValue={ this.props.pokeDetail.hp }
                                 onChange = { this.inputValidator }
@@ -310,9 +413,6 @@ class PokeEditor extends Component {
                                 className="inputBattleStatsCreator"
                                 type="number"
                                 name="velocidad"
-                                /* defaultValue={""} */
-                                /* defaultValue={pokeCache.velocidad} */
-                                /* step={5} */
                                 min="0" 
                                 defaultValue={ this.props.pokeDetail.velocidad }
                                 onChange = { this.inputValidator }
@@ -320,38 +420,39 @@ class PokeEditor extends Component {
                             </div>
                         </div>
                     </div>
-                    {/* <div className="conteinerProblemsCreator">
-                        <h2 className="titleProblemsCreator">Problems</h2>
+                    <div className="conteinerProblemsCreator">
+                        <h2 className="titleProblemsCreator">Problems List</h2>
                         <ul className="problemsCreator">
                             {
                                 Object.values( this.state.errorType ).map(( errorMessage, index ) => {
                                     return (
-                                        <li key={ index }> {errorMessage }</li>
+                                        <li className="itemError" key={ index }> {errorMessage }</li>
                                     )
                                 })
                             }
                         </ul>
-                    </div> */}
-                    
+                    </div>
+                    <div className="probelmslistmessageContainer">
+                            {
+                                this.problems() ?   
+                                null :
+                                <p className="probelmslistmessage">* Problems List must be empty to activate the Update button</p>
+                            }
+                    </div>
                     <div className="conteinerBtnsCreator">
                         <div className="conteinerBtnMainCreator">
                             <Link to = '/home'>
                                 <button 
                                 className="btnMainCreator"
                                 onClick={ this.handleMainPage }
-                                >Main Page</button>
+                                >
+                                    Main Page
+                                </button>
                             </Link>
                         </div>                      
                         <div className="conteinerSubmitCreator">
                         {   
-                            !this.state.errorType.name &&
-                            !this.state.errorType.attack &&
-                            !this.state.errorType.defense &&
-                            !this.state.errorType.hp &&
-                            !this.state.errorType.velocidad &&
-                            !this.state.errorType.height &&
-                            !this.state.errorType.weight &&
-                            this.state.pokemon.name ?
+                            this.problems() ?
                             <input className="submitCreator" type="submit" value="Update!"/> : 
                             <input className="submitCreator" type="submit" value="Update!" disabled/>
                         }
@@ -367,23 +468,23 @@ class PokeEditor extends Component {
                                 <h2>Preview</h2>
                                 <PokePre 
                                 poke = { this.state.pokemon }
-                                
                                 />
                             </div> :
                             <div className="thirdColumn">
                                 <div className="fantasma">
-
-                            <AfterEditor />
+                                    <AfterEditor />
                                 </div>
                             </div>
                         }
                     </> :
                     <div className="thirdColumn">
-                        <Loading />
+                        <div className="fantasma">
+                            <Loading />
+                        </div>
                     </div>
                 }
                 <div className="secondColumn">
-                        <h2>Types</h2>
+                        <h2>Types ( Optional )</h2>
                     <div className="typesConteiner">
                         {
                             this.props.types.map(( el, index ) => {
@@ -400,7 +501,7 @@ class PokeEditor extends Component {
                                         value={ el.name }
                                         onChange={ this.inputValidator } 
                                         defaultChecked = {
-                                            this.props.pokeDetail.types?.some(e => e.name === el.name)
+                                            this.props.pokeDetail.types?.some(( e ) => e.name === el.name)
                                         }
                                         />
                                         <label 
@@ -418,9 +519,8 @@ class PokeEditor extends Component {
             </div>
             </form>
         )
-    }
-    
-}
+    };  
+};
 
 const mapStateToProps = ( state ) => {
     return {
@@ -429,9 +529,8 @@ const mapStateToProps = ( state ) => {
         creating: state.creating,
         loading: state.loading,
         types: state.types
-        
-    }
-}
+    };
+};
 
 const mapDispatchToProps = ( dispatch ) => {
     return {
@@ -439,7 +538,7 @@ const mapDispatchToProps = ( dispatch ) => {
         getTypes: () => dispatch( getTypes() ),
         updatePokemon: ( pokemon ) => dispatch( updatePokemon( pokemon )),
         searchById: ( id ) => dispatch( searchById( id ))
-    }
-}
+    };
+};
 
-export default connect( mapStateToProps, mapDispatchToProps )( PokeEditor )
+export default connect( mapStateToProps, mapDispatchToProps )( PokeEditor );

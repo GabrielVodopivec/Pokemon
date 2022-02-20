@@ -1,10 +1,7 @@
 import React from "react";
-/* import { useEffect } from "react"; */
 
 const PokePre = ( props ) => {
-    /* useEffect(()=>{
-        console.log(props)
-    }) */
+
     return (
         <div className="conteinerPrev">
             <div className="conteinerNamePrev">
@@ -42,14 +39,16 @@ const PokePre = ( props ) => {
                     </div>
                 </div>
                 <div className="conteinerTypesPrev">
-                    {props.poke.pokeTypes?.map( (el, index) => {
-                        return (
-                            <div
-                            key={ index } 
-                            className= "typesPrev"
-                            > { el } </div>
-                        )
-                    })}
+                    {
+                        props.poke.pokeTypes?.map( (el, index) => {
+                            return (
+                                <div
+                                key={ index } 
+                                className= "typesPrev"
+                                > { el } </div>
+                            )
+                        })
+                    }
                 </div>
             </div>
             <div className="conteinerImgPrev">    
@@ -57,6 +56,6 @@ const PokePre = ( props ) => {
             </div>
         </div>
     )
-}
+};
 
 export default PokePre;

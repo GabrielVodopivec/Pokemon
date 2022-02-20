@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { BACK_TO_CREATOR, BULK_CREATE, CHECK_BULK, CLEAN_CACHE, DELETE_POKEMON, EDITING_AGAIN, ERROR_SEARCH_BY_ID, ERROR_SEARCH_BY_NAME, EXISTENT_POKEMON, FAIL_UPDATE, FILTER_BY_ORIGIN, FILTER_BY_TYPE, GET_ALL_POKEMONS, GET_TYPES, LOADING, ORDER_ALPHABETICALLY, ORDER_BY_ATTACK, POKEMON_CREATED, RESET_CREATED, RESET_UPDATING, SEARCH_BY_ID, SEARCH_BY_NAME, SELECT_PAGE, SET_DETAIL, UPDATE_POKEMON } from '../actionTypes';
+import { BACK_TO_CREATOR, BULK_CREATE, CHECK_BULK, CLEAN_CACHE, DELETE_POKEMON, EDITING_AGAIN, ERROR_CREATED, ERROR_SEARCH_BY_ID, ERROR_SEARCH_BY_NAME, EXISTENT_POKEMON, FAIL_UPDATE, FILTER_BY_ORIGIN, FILTER_BY_TYPE, GET_ALL_POKEMONS, GET_TYPES, LOADING, ORDER_ALPHABETICALLY, ORDER_BY_ATTACK, POKEMON_CREATED, RESET_CREATED, RESET_UPDATING, SEARCH_BY_ID, SEARCH_BY_NAME, SELECT_PAGE, SET_DETAIL, UPDATE_POKEMON } from '../actionTypes';
 
 export const getAllPokemons = () => {
     return dispatch => {
@@ -18,6 +18,10 @@ export const getAllPokemons = () => {
 };
 export const getTypes = () => {
     return dispatch => {
+        dispatch({
+            type: LOADING,
+        })
+        
         console.log('getTypes')
         axios(`http://localhost:3001/types`)
         .then(( response ) => {
@@ -156,6 +160,26 @@ export const createPokemon = ({
                 })
             })
             .catch(( error ) => {
+                console.log(error.response.data)
+                dispatch({
+                    type: "FILL_CACHE",
+                    payload: {
+                    name,
+                    img,
+                    hp,
+                    attack,
+                    defense,
+                    velocidad,
+                    height,
+                    weight,
+                    pokeTypes,
+                    bulked
+                    }
+                })
+                dispatch({
+                    type:ERROR_CREATED,
+                    payload: error.response.data
+                })
                 console.log( error )
             })
         })
@@ -264,7 +288,6 @@ export const updatePokemon = ({
             })
         })
         .catch(( error ) => {
-            console.log('llega hasta aca?')
             console.log ( error.response.data )
             dispatch({
                 type: FAIL_UPDATE,

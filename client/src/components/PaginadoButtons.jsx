@@ -5,28 +5,29 @@ import { selectPage } from "../actions";
 
 const PaginadoButtons = () => {
 
-    const dispatch = useDispatch();
+    const dispatch = useDispatch(),
 
-    const pokemons = useSelector( state => state.pokemons );
-    const pokemonsPerPage = useSelector( state => state.pokemonsPerPage );
-    const actualPage = useSelector( state => state.page )
+    pokemons = useSelector( state => state.pokemons ),
+    pokemonsPerPage = useSelector( state => state.pokemonsPerPage ),
+    actualPage = useSelector( state => state.page ),
 
-    const quantityOfButtons = Math.ceil( pokemons.length/pokemonsPerPage)
+    quantityOfButtons = Math.ceil( pokemons.length/pokemonsPerPage),
 
-    const buttons = ( quantityOfButtons ) => {
-        let arrButtons = [];
-        let page = 1;
+    buttons = ( quantityOfButtons ) => {
+        let arrButtons = [],
+        page = 1;
         while ( page <= quantityOfButtons ) {
             arrButtons.push( page );
             page++
         };
+        
         return arrButtons;
-    }
+    },
 
-    const handleClick = ( event ) => {
+    handleClick = ( event ) => {
         event.preventDefault();
         const page = event.target.value;
-        dispatch( selectPage( page ));
+        dispatch( selectPage( parseInt( page ) ));
     }
 
     return (
@@ -37,8 +38,9 @@ const PaginadoButtons = () => {
                         <button
                         key={ page }
                         value={ page }
-                        className={(actualPage === page)? "btnPageFocus" : "btnPage"}
-                        
+                        className={( actualPage === page ) ? 
+                            "btnPageFocus" : 
+                            "btnPage"}
                         onClick={ handleClick }
                         > { page } </button>
                     )

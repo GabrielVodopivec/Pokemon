@@ -6,16 +6,35 @@ const axios = require('axios')
 const { pokemon, types } = require('../db');
 const { getPokemons, getTypes, morePokemons } = require("./getInfo")
 let allPokemons = getPokemons();
-const pokeTpyes = getTypes()
+let pokeTpyes = getTypes()
 const pokemonsToBulk = morePokemons();
 const router = Router();
 // Configurar los routers
 // Ejemplo: router.use('/auth', authRouter);
 
 router.get('/types', ( req, res ) => {
+    
     pokeTpyes
-    .then(( resp ) => {
-        res.status( 200 ).send( resp )
+    .then(( response ) => {
+        const alphabeticOrder = ( array ) => {
+            if ( array.length <= 1) return array;
+            let pivot = array[0];
+            let left = [];
+            let right = [];
+            for ( let i = 1; i < array.length; i++ ) {
+                if ( array[i].name.toLocaleLowerCase() < pivot.name.toLocaleLowerCase() ) {
+                    left.push( array[i] );
+                } else {
+                    right.push( array[i] );
+                }
+            };
+            return [ ...alphabeticOrder( left ), pivot, ...alphabeticOrder( right ) ]
+        }
+        const result = alphabeticOrder( response );
+        return result;
+    })
+    .then(( result ) => {
+        res.status( 200 ).send( result )
     })
     .catch(() =>{
         res.status( 400 ).send('hubo problemas')
@@ -69,7 +88,7 @@ router.get('/pokemons', ( req, res ) => {
                     }]
                 })
                 .then(( pokemono ) => {
-
+                    
                     if ( pokemono ) {
                         console.log("Pokemon encontrado en la Base de datos")
                         return res.status( 200 ).send( [ pokemono ] ) 
@@ -78,10 +97,6 @@ router.get('/pokemons', ( req, res ) => {
                     console.log("Pokemon not found")
                     res.status( 400 ).send( "Pokemon not found")
                 }) 
-            })
-            .catch(( error ) => {
-                console.log( error )
-                res.status( 400 ).send( "Hubo problemas en el proceso de busqueda")
             })
 
     } else {
@@ -131,7 +146,7 @@ router.get('/detail/:id', ( req, res ) => {
             img: info.sprites.other.home.front_default,
             types: info.types.map(( element ) => {
                 return {
-                    name: element.type.name
+                    name: element.type.name.replace(element.type.name[0], element.type.name[0].toUpperCase())
                 }
             }),
             hp: info.stats[0].base_stat,
@@ -206,7 +221,8 @@ router.post('/pokemons', async ( req, res ) => {
 
         res.status( 200 ).send( {wasCreated: created, pokemonCreated } )
     } catch ( error ) {
-        console.log(error)
+        console.log(error.original)
+        res.status( 400 ).send('Missing data')
     }
     
     allPokemons = getPokemons();
@@ -288,7 +304,7 @@ router.post('/pokeomons/bulkCreate', async ( req, res ) => {
     } catch ( error ) {
         console.log( error )
     }
-    /* allPokemons = getPokemons(); */
+    
 })
 
 router.put('/pokemons/update/:id', async ( req, res ) => {
@@ -310,7 +326,7 @@ router.put('/pokemons/update/:id', async ( req, res ) => {
     try {
         try {
             const infoApi = await axios(`https://pokeapi.co/api/v2/pokemon/${name.toLowerCase().trim()}/`)
-            res.status(400).send({data:`EL nombre ${infoApi.data.name} ya existe, Pokemon no actualizado`})
+            res.status(400).send({data:`The name ${infoApi.data.name} alredy exists, your Pokemon wasn't Updated`})
 
         } catch {
             const pokeInDb = await pokemon.findOne({
@@ -355,9 +371,9 @@ router.put('/pokemons/update/:id', async ( req, res ) => {
                         }
                     }]
                 })
-                res.status( 200 ).send({data:'Pokemon Updated', up: updated})
+                res.status( 200 ).send({data:'Your Pokemon was Updated!', up: updated})
             } else {
-                res.status( 400 ).send({data:`El nombre ${pokeInDb.name} ya existe, Pokemon no actualizado`})
+                res.status( 400 ).send({data:`The name ${pokeInDb.name} alredy exists, your Pokemon wasn't Updated`})
             }
         }
 
@@ -367,6 +383,18 @@ router.put('/pokemons/update/:id', async ( req, res ) => {
         console.log( error )
     }
     allPokemons = getPokemons();
+})
+
+router.post("/pokemons/TypeCreate", async ( req, res ) =>{
+    const { name } = req.body;
+    try {
+        const newType = await types.create({ name })
+        res.status( 200 ).send( newType )
+    } catch ( error ) {
+        console.log( error )
+        res.status( 400 ).send( { data: "Algo salió mal" } )
+    }
+    pokeTpyes = getTypes()
 })
 
 module.exports = router;

@@ -53,7 +53,8 @@ const types = ( sequelize ) => {
   class Types extends Model {};
   Types.init({
     name: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull:false
     }
   }, {
     sequelize,
