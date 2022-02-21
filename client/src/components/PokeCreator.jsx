@@ -18,6 +18,7 @@ export default function PokeCreator () {
     const back = useSelector( state => state.back );
     const pokeCache = useSelector( state => state.pokeCache );
     const created = useSelector( state => state.created );
+    const createdPokemon = useSelector( state => state.createdPokemon)
 
     const [ pokemon, setPokemon ] = useState({
         name: "",
@@ -490,7 +491,7 @@ export default function PokeCreator () {
                             <div className="thirdColumn">
                                 <div className="fantasma">
 
-                            <AfterCreator />
+                            <AfterCreator id = { createdPokemon.id } />
                                 </div>
                             </div>
                         }

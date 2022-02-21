@@ -1,11 +1,13 @@
 import React from "react";
+
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 import { backToCreator, getAllPokemons, resetCreator } from "../actions";
 
-const AfterCreator = () => {
-
+const AfterCreator = ( props ) => {
+    
+    
     const dispatch = useDispatch();
     const created = useSelector( state => state.created );
     const errorCreated = useSelector( state => state.errorCreated );
@@ -50,12 +52,23 @@ const AfterCreator = () => {
                     </Link>
                     {
                         created ? 
+                        <>
+                        <Link className="LinkbtnAfter" to= {`/detail/${props.id}`}>
+                            <button
+                            className="btnAfter"
+                            onClick={ handleClick }
+                            >
+                                See my Pokemon
+                            </button> 
+                        </Link>
+                        
                         <button
                         className="btnAfter"
                         onClick={ handleClick }
                         >
                             Create Another Pokemon
-                        </button> :
+                        </button> 
+                        </> :
                         <button
                         className="btnAfter"
                         onClick={ handleBack }

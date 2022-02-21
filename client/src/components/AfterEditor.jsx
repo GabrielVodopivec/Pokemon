@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 import { getAllPokemons, resetUpdating } from "../actions";
 
-export default function AfterEditor () {
+export default function AfterEditor ( props ) {
     const dispatch = useDispatch();
 
     const updated = useSelector( state => state.updated );
@@ -41,12 +41,22 @@ export default function AfterEditor () {
                     </Link>
                     {
                         updated ? 
-                        <button
-                        className="btnAfter"
-                        onClick={ handleClick }
-                        >
-                            Back to Edit
-                        </button> :
+                        <>
+                            <Link className="LinkbtnAfter" to = {`/detail/${ props.id }`} >
+                                <button
+                                className="btnAfter"
+                                onClick={ handleClick }
+                                >
+                                    See My Pokemon
+                                </button> 
+                            </Link>
+                            <button
+                            className="btnAfter"
+                            onClick={ handleClick }
+                            >
+                                Back to Edit
+                            </button> 
+                        </> :
                         <button
                         className="btnAfter"
                         onClick={ handleBack }

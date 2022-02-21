@@ -132,7 +132,7 @@ const PokeDetail = () =>{
                                 </div>
                                 <div >
                                     <Link to = '/home'>
-                                        <button className="BtnCreatePokemonsNav">Go Back!</button>
+                                        <button className="BtnCreatePokemonsNav">Main Page</button>
                                     </Link>
                                 </div>
                             

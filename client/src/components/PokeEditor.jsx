@@ -472,7 +472,7 @@ class PokeEditor extends Component {
                             </div> :
                             <div className="thirdColumn">
                                 <div className="fantasma">
-                                    <AfterEditor />
+                                    < AfterEditor id = {this.props.pokeDetail.id } />
                                 </div>
                             </div>
                         }
