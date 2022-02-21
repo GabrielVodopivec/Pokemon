@@ -3,7 +3,7 @@ import { BACK_TO_CREATOR, BULK_CREATE, CHECK_BULK, CLEAN_CACHE, DELETE_POKEMON, 
 
 export const getAllPokemons = () => {
     return dispatch => {
-        axios(`/pokemons`)
+        axios(`http://localhost:3001/pokemons`)
             .then(( resp ) => {
                 console.log('getAllPokemons')
                 return dispatch({
@@ -23,7 +23,7 @@ export const getTypes = () => {
         })
         
         console.log('getTypes')
-        axios(`/types`)
+        axios(`http://localhost:3001/types`)
         .then(( response ) => {
             return dispatch({
             type: GET_TYPES,
@@ -39,7 +39,7 @@ export const searchByName = ( name ) => {
         dispatch({
             type: LOADING
         })
-        axios(`/pokemons?name=${name.trim()}`)
+        axios(`http://localhost:3001/pokemons?name=${name.trim()}`)
         .then(( response ) => {
             return dispatch({
                 type: SEARCH_BY_NAME,
@@ -59,7 +59,7 @@ export const searchById = ( id ) => {
         dispatch({
             type: LOADING
         })
-        axios(`/detail/${id}`)
+        axios(`http://localhost:3001/detail/${id}`)
         .then(( pokemon ) => {
             dispatch({
                 type: SEARCH_BY_ID,
@@ -116,7 +116,7 @@ export const createPokemon = ({
             type: LOADING,
         })
         
-        axios(`/pokemons?name=${name.trim()}`)
+        axios(`http://localhost:3001/pokemons?name=${name.trim()}`)
         .then(() => {
             dispatch({
                 type: "FILL_CACHE",
@@ -139,7 +139,7 @@ export const createPokemon = ({
             
         })
         .catch(() => {
-            axios.post(`/pokemons`, {
+            axios.post(`http://localhost:3001/pokemons`, {
                 name,
                 img,
                 hp,
@@ -219,7 +219,7 @@ export const setDetail = () => {
 }
 export const deletePokemon = ( id ) => {
     return ( dispatch ) => {
-        axios.delete(`/pokemons/${id}`)
+        axios.delete(`http://localhost:3001/pokemons/${id}`)
         .then(( response ) => dispatch({
             type: DELETE_POKEMON,
             payload: response.data
@@ -232,7 +232,7 @@ export const deletePokemon = ( id ) => {
 export const bulkCreate = () => {
     return ( dispatch ) => {
 
-        axios.post(`/pokeomons/bulkCreate`)
+        axios.post(`http://localhost:3001/pokeomons/bulkCreate`)
         
         .then( () => {
             console.log("Bulk Done")
@@ -268,7 +268,7 @@ export const updatePokemon = ({
         dispatch({
             type: LOADING
         })
-        axios.put(`/pokemons/update/${id}`, {
+        axios.put(`http://localhost:3001/pokemons/update/${id}`, {
             name,
             img,
             hp,
