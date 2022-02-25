@@ -17,6 +17,7 @@ export default function AfterEditor ( props ) {
     };
 
     const handleClick = () => {
+        dispatch(getAllPokemons())
         dispatch( resetUpdating() );
     };
 

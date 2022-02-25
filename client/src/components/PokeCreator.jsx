@@ -35,8 +35,8 @@ export default function PokeCreator () {
 
     const [ errorType, setErrorType ] = useState({
         name: "Pokemon`s name is required",
-        height: "Height must be a number between 0 - 1000",
-        weight: "Weight must be a number between 0 - 1000",
+        height: "Height must be a number between 0 - 2000",
+        weight: "Weight must be a number between 0 - 2000",
         attack: "Attack must be a number between 0 - 200",
         defense: "Defense must be a number between 0 - 200",
         hp: "Hp must be a number between 0 - 200",
@@ -229,12 +229,12 @@ export default function PokeCreator () {
                 (
                     regExpNum.test( event.target.value ) ||
                     event.target.value.length === 0 || 
-                    (event.target.value) > 1000 || 
+                    (event.target.value) > 2000 || 
                     ((event.target.value) < 0) 
                 ) ?
                 setErrorType({
                     ...errorType,
-                    height: "Height must be a number between 0 - 1000"
+                    height: "Height must be a number between 0 - 2000"
                 }) :
                 setErrorType({
                     ...errorType,
@@ -249,12 +249,12 @@ export default function PokeCreator () {
                 (
                     regExpNum.test( event.target.value ) ||
                     event.target.value.length === 0 || 
-                    (event.target.value) > 1000 || 
+                    (event.target.value) > 2000 || 
                     ((event.target.value) < 0) 
                 ) ?
                 setErrorType({
                     ...errorType,
-                    weight: "Weight must be a number between 0 - 1000"
+                    weight: "Weight must be a number between 0 - 2000"
                 }) :
                 setErrorType({
                     ...errorType,
@@ -348,6 +348,7 @@ export default function PokeCreator () {
                                 /* defaultValue={""} */
                                 onChange = { inputValidator }
                                 />
+                                <label className="labelPhyCreator" htmlFor="">( cm )</label>
                             </div>
                             <div className="battleStatCreator">
                                 <label className="labelPhyCreator" htmlFor="">Weight</label>
@@ -362,6 +363,7 @@ export default function PokeCreator () {
                                 value={ pokemon.weight }
                                 onChange = { inputValidator }
                                 />
+                                <label className="labelPhyCreator" htmlFor="">( Kg )</label>
                             </div>
                         </div>
                     </div>

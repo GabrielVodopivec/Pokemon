@@ -2,9 +2,9 @@ const axios = require('axios');
 const { pokemon, types } = require('../db');
 
 const apiCall1 = () => {
-    let pokeId1 = 701;
+    let pokeId1 = 501;
     let arrDetail = [];
-    while( pokeId1 <= 720 ) {  
+    while( pokeId1 <= 520 ) {  
         arrDetail.push( axios(`https://pokeapi.co/api/v2/pokemon/${pokeId1}`) );
         pokeId1++;
     }
@@ -12,9 +12,9 @@ const apiCall1 = () => {
     return arrDetail;
 };
 const apiCall2 = () => {
-    let pokeId1 = 721;
+    let pokeId1 = 601;
     let arrDetail = [];
-    while( pokeId1 <= 740) {  
+    while( pokeId1 <= 620) {  
         arrDetail.push( axios(`https://pokeapi.co/api/v2/pokemon/${pokeId1}`) );
         pokeId1++;
     }
@@ -22,9 +22,9 @@ const apiCall2 = () => {
     return arrDetail;
 };
 const apiCall3 = () => {
-    let pokeId1 = 501;
+    let pokeId1 = 401;
     let arrDetail = [];
-    while( pokeId1 <= 510 ) {  
+    while( pokeId1 <= 410 ) {  
         arrDetail.push( axios(`https://pokeapi.co/api/v2/pokemon/${pokeId1}`) );
         pokeId1++;
     }
@@ -213,9 +213,12 @@ const getTypes = () => {
                 })
             })
                 
-            .then(( response ) => {
+            .then( async ( response ) => {
                 console.log("Types ready to go!")
-                types.bulkCreate( response )
+                const existentTypes = await types.findAll()
+                if( !existentTypes.length ) {
+                    await types.bulkCreate( response )
+                }
             })
             .then(() => {
                 return types.findAll();

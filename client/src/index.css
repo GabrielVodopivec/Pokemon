@@ -11,8 +11,8 @@ html, body {
     sans-serif; */
     font-family: 'Neucha', cursive;
     font-size:medium;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  /* -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; */
   height: 100%;
   width: 100%;
   background: hsla(33, 100%, 53%, 1);
@@ -457,7 +457,7 @@ filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#FF930F", en
 }
 @media (prefers-reduced-motion: no-preference) {
   .conteinerstartBtn {
-    animation: App-logo-spin infinite 10s linear;
+    animation: App-logo-spin infinite 10s cubic-bezier(0.075, 0.82, 0.165, 1);
   }
 }
 @keyframes App-logo-spin {
@@ -1107,7 +1107,8 @@ filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#FF930F", en
 }
 .labelPhyCreator{
   font-weight: 550;
-  padding: 10px;
+  padding: 5px;
+  width: 50px;
 }
 .inputPhyCreator{
   padding-left: 5px;
@@ -1166,7 +1167,7 @@ filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#FF930F", en
   flex-direction: column;
   justify-content: center;
   height: 120px;
-  width: 150px;
+  width: 200px;
 }
 .labelBattleCreator{
   font-weight: 550;

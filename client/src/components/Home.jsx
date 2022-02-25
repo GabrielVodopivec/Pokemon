@@ -39,7 +39,7 @@ export default function Home () {
                 !loading ? 
                 <div className="contenedor">
                 {
-                    ( pokemons.length && !errorSearchByName.length ) ? 
+                    ( !errorSearchByName.length ) ? 
                     pokemonsOnScreen.map(( poke ) => {
                         return(
                         <div className="conteinerPokecard" key={poke.id}>  

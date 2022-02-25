@@ -81,7 +81,7 @@ class PokeEditor extends Component {
             case "height": 
                 if( !event.target.value.length || 
                     regExpNum.test( event.target.value ) || 
-                    (event.target.value > 1000) || 
+                    (event.target.value > 2000) || 
                     (event.target.value < 0) ) {
                     return this.setState({
                         pokemon: {
@@ -90,7 +90,7 @@ class PokeEditor extends Component {
                         },
                         errorType: {
                             ...this.state.errorType,
-                            height: "Height must be a number between 0 - 1000"
+                            height: "Height must be a number between 0 - 2000"
                         }
                     })
                 } else {
@@ -108,7 +108,7 @@ class PokeEditor extends Component {
             case "weight": 
             if( !event.target.value.length || 
                 regExpNum.test( event.target.value ) || 
-                (event.target.value > 1000) || 
+                (event.target.value > 2000) || 
                 (event.target.value < 0) ) {
                 return this.setState({
                     pokemon: {
@@ -117,7 +117,7 @@ class PokeEditor extends Component {
                     },
                     errorType: {
                         ...this.state.errorType,
-                        weight: "Weight must be a number between 0 - 1000"
+                        weight: "Weight must be a number between 0 - 2000"
                     }
                 })
             } else {
@@ -357,6 +357,7 @@ class PokeEditor extends Component {
                                 defaultValue={ this.props.pokeDetail.height }
                                 onChange = { this.inputValidator }
                                 />
+                                <label className="labelPhyCreator" htmlFor="">( cm )</label>
                             </div>
                             <div className="battleStatCreator">
                                 <label className="labelPhyCreator" htmlFor="">Weight</label>
@@ -368,6 +369,7 @@ class PokeEditor extends Component {
                                 defaultValue={ this.props.pokeDetail.weight }
                                 onChange = { this.inputValidator }
                                 />
+                                <label className="labelPhyCreator" htmlFor="">( Kg )</label>
                             </div>
                         </div>
                     </div>

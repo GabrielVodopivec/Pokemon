@@ -19,6 +19,7 @@ const AfterCreator = ( props ) => {
 
     const handleClick = () => {
         dispatch( resetCreator() );
+        dispatch( getAllPokemons() );
     };
 
     const handleBack = () => {
