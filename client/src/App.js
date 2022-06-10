@@ -1,6 +1,7 @@
 import './App.css';
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Navigate } from 'react-router';
 import LandingPage from './components/Landing';
 import Home from './components/Home';
 import PokeDetail from './components/PokeDetail';
@@ -17,6 +18,7 @@ function App() {
           <Route path = '/detail/:id' element = { <PokeDetail /> } />
           <Route path = '/pokecreator' element = { <Form /> } />
           <Route path = '/editor/:id' element = { <Editor />} />
+          <Route path="*" element={<Navigate to="/Home" />} />
         </Routes>  
       </div>
     </BrowserRouter>

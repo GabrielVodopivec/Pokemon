@@ -46,6 +46,7 @@ export default function NavBar () {
                     null
                 }
             </div>
+                <span id="motion"></span>
             <div className="conteinerSearchByNameNav">
                 <SearchByName />
             </div>

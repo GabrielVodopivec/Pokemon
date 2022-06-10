@@ -27,13 +27,14 @@ export default function Home () {
       !inDetail &&  dispatch( getAllPokemons() );
       dispatch( checkBulk() );
     }, [ dispatch, inDetail ]);
-
+    
     return (
         <div className="home">
             <div className="navbarConteiner" >
                 <div className="NavBar" >
                     <NavBar />
                 </div>
+                
             </div>
             {
                 !loading ? 

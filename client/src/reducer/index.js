@@ -53,6 +53,7 @@ const initialState = {
 
 const rootReducer = ( state = initialState, action ) => {
     switch( action.type ) {
+
         case POKEMON_CREATED: 
         return {
             ...state,
@@ -113,6 +114,7 @@ const rootReducer = ( state = initialState, action ) => {
         return {
             ...state,
             inDetail:true,
+            loading:false
             }
         case GET_ALL_POKEMONS:
             return {

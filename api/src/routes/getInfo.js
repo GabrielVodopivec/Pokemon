@@ -232,6 +232,7 @@ const getTypes = () => {
             })
         
 }
+
 const info = {
     getPokemons,
     morePokemons,
