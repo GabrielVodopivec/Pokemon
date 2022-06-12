@@ -35,7 +35,7 @@ export default function NavBar () {
     return (
         <div className="interiorNavbar">
             <div className="principalTitle">
-                 <img className="titile" src="http://24.media.tumblr.com/232a91726b505a0e8ef44648ca7cc854/tumblr_mjflojSWnr1s1byhpo1_500.gif" alt="Img not found" />
+                 <img className="titile" src="https://24.media.tumblr.com/232a91726b505a0e8ef44648ca7cc854/tumblr_mjflojSWnr1s1byhpo1_500.gif" alt="Img not found" />
             </div>
             <div className="quantity">
                 { 

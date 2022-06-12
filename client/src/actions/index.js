@@ -5,7 +5,7 @@ export const getAllPokemons = () => {
     return dispatch => {
         axios(`/pokemons`)
             .then(( resp ) => {
-                console.log('getAllPokemons')
+                // console.log('getAllPokemons')
                 return dispatch({
                 type: GET_ALL_POKEMONS,
                 payload: resp.data
@@ -22,7 +22,7 @@ export const getTypes = () => {
             type: LOADING,
         })
         
-        console.log('getTypes')
+        // console.log('getTypes')
         axios(`/types`)
         .then(( response ) => {
             return dispatch({
