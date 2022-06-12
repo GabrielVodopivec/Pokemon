@@ -75,6 +75,7 @@ const rootReducer = ( state = initialState, action ) => {
         case DELETE_POKEMON:
             return {
                 ...state,
+                loading:false,
                 deleted: true
             }
         case EXISTENT_POKEMON:

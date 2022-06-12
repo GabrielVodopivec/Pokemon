@@ -4,8 +4,7 @@ const models = require('./models');
 
 const { DB_USER, DB_PASSWORD, DB_HOST, DB_NAME } = process.env;
 
-let sequelize =
-  process.env.NODE_ENV === "production"
+let sequelize = process.env.NODE_ENV === "production"
     ? new Sequelize({
         database: DB_NAME,
         dialect: "postgres",
@@ -27,15 +26,10 @@ let sequelize =
         },
         ssl: true,
       })
-    : new Sequelize(
-        `postgres://postgres:n123456@localhost/pokemondb`,
-        { logging: false, native: false }
-      );
-
-// const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`, {
-//   logging: false, // set to console.log to see the raw SQL queries
-//   native: false, // lets Sequelize know we can use pg-native for ~30% more speed
-// });
+    : new Sequelize( `postgres://postgres:n123456@localhost/pokemondb`, { 
+          logging: false, 
+          native: false
+        });
 
 Object.values( models ).forEach(( model ) => model( sequelize ));
 

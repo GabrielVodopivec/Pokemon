@@ -219,6 +219,9 @@ export const setDetail = () => {
 }
 export const deletePokemon = ( id ) => {
     return ( dispatch ) => {
+        dispatch({
+            type: LOADING
+        })
         axios.delete(`/pokemons/${id}`)
         .then(( response ) => dispatch({
             type: DELETE_POKEMON,
